@@ -1,0 +1,123 @@
+[157]
+년도별로 입사한 인원수 결과를 출력해주세요.
+
+[Answer]
+range(0,emp['sal'].count())
+
+emp['hire_date'][1][:4]
+
+emp['sal'].groupby(emp['hire_date']).count()
+
+hire=[]
+
+for i in range(0,emp['sal'].count()):
+    hire.append(emp['hire_date'][i][:4])
+
+hire
+
+
+emp['sal'].groupby(hire).count()
+Out[133]: 
+2001     1
+2002     7
+2003     6
+2004    10
+2005    29
+2006    24
+2007    19
+2008    11
+Name: sal, dtype: int64
+
+
+
+또는
+
+from pandas import Series, DataFrame
+import pandas as pd
+import numpy as np
+
+
+emp = pd.read_csv("c:\data\emp_new.csv", names = ['empid','name','job','mgr','hire_date','sal','comm','deptno'])
+emp.dtypes
+print(emp.groupby(emp['hire_date'].str.slice(0,4))['empid'].count())
+print(emp.groupby(pd.to_datetime(emp['hire_date']).dt.year)['empid'].count())
+pd.to_datetime(emp['hire_date']).dt
+pd.to_datetime(emp['hire_date']).dt.year
+pd.to_datetime(emp['hire_date']).dt.month
+pd.to_datetime(emp['hire_date']).dt.day
+pd.to_datetime(emp['hire_date']).apply(lambda x: x.year) # 년도만 뽑아내기
+pd.to_datetime(emp['hire_date']).apply(lambda x: x.month) # 월만 뽑아내기
+
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.year # 2018
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.month # 9
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.day # 19
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.hour # 11
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.minute # 1
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.second # 30
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.quarter # 3: 분기
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.dayofweek # 2 : (월요일=0, 일요일=6)
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.dayofyear # 262
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.date # 2018-09-19
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.time # 11:01:30
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.week # 38: 현재 몇번째 주에 와있는지?
+pd.to_datetime(Series('2018-09-19 11:01:30')).dt.days_in_month # 30: 달의 마지막 일?
+
+
+<경우1>
+# str.slice(0,4) : 0번부터 3번까지라는 뜻(4-1)
+print(emp.groupby(emp['hire_date'].str.slice(0,4))['empid'].count())
+hire_date
+2001     1
+2002     7
+2003     6
+2004    10
+2005    29
+2006    24
+2007    19
+2008    11
+Name: empid, dtype: int64
+
+<경우2>
+# 판다스에서 제공하는 메소드: to_datetime : "문자->날짜"로 바꿔줌
+print(emp.groupby(pd.to_datetime(emp['hire_date']).dt.year)['empid'].count())
+hire_date
+2001     1
+2002     7
+2003     6
+2004    10
+2005    29
+2006    24
+2007    19
+2008    11
+Name: empid, dtype: int64
+
+
+# 형식만 보임
+pd.to_datetime(emp['hire_date']).dt
+Out[140]: <pandas.core.indexes.accessors.DatetimeProperties object at 0x00000000072E8668>
+
+
+# dt.뽑아낼 것(year,month,day...)
+# 날짜형으로 바꾼 후 year만 뽑아냄
+pd.to_datetime(emp['hire_date']).dt.year
+Out[141]: 
+0      2003
+1      2005
+2      2001
+3      2006
+4      2007
+5      2005
+...
+
+
+# 날짜정보
+pd.to_datetime(Series('09192018 11:01:30'),format='%m%d%Y %H:%M:%S').dt.year
+Out[170]: 
+0    2018
+dtype: int64
+
+
+pd.to_datetime(Series('09192018 11:01:30'),format='%m%d%Y %H:%M:%S')
+Out[169]: 
+0   2018-09-19 11:01:30
+dtype: datetime64[ns]

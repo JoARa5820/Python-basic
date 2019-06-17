@@ -1,0 +1,68 @@
+[84]
+stats 모듈에 평균, 분산, 표준편차함수를 사용할 수 있는 프로그램을 생성하세요.
+
+>>> import stats
+>>> stats.mean(1,2,3,4,5)
+3.0
+>>> stats.variance(1,2,3,4,5)
+2.5
+>>> stats.stddev(1,2,3,4,5)
+1.5811388300841898
+
+
+[Answer]
+
+# 평균
+def mean(*arg):
+	return sum(arg)/len(arg)
+
+# 분산
+def variance(*arg):
+	total=0
+	m=mean(*arg)
+	for i in arg:
+		total += (i-m)**2
+	return total/(len(arg)-1)
+
+
+# 표준편차
+import math
+
+def stddev(*arg):
+	v=variance(*arg)
+	return math.sqrt(v)
+
+
+
+# 아래 알고리즘을 "c드라이브" 아래 만든 "mypython 폴더" 안에 "stats.py"으로 메모장에 복붙해서 파일 만들어줌
+
+import math
+
+def mean(*arg):
+        return sum(arg)/len(arg)
+
+def variance(*arg):			# "*arg"로 안하면 오류남
+    total = 0
+    m = mean(*arg)
+    for i in arg:
+        total += (i-m)**2
+    return total/(len(arg)-1) 
+   
+def stddev(*arg):			# "*arg"로 안하면 오류남
+    return math.sqrt(variance(*arg))
+
+#-----------------------------------------------------------------------------#
+
+import sys			# sys를 connect함
+sys.path.append('C:\\mypython') 	# import sys로 컨넥트 한 후 해줘야 오류 안남
+sys.path				# 경로 확인
+# sys.path.remove('C:\\mypython')	# 삭제할때
+
+
+import stats # 패키지 파일 불러오기
+
+
+# 여기서 사용하기
+stats.mean(1,2,3,4,5)
+stats.variance(1,2,3,4,5)    
+stats.stddev(1,2,3,4,5)

@@ -1,0 +1,87 @@
+[83]
+stddev(2,3,1,7) 표준편차를 구하세요. stddev함수를 생성하세요.
+
+제곱: x**2
+
+평균 = 관측값의 합 / 데이터수
+편차 = 관측값 - 평균
+편차 제곱합 = 시그마(편차제곱) => 시그마(x-뮤)^2
+분산 = 편차제곱합/데이터수(자유도)
+표준편차 = math.sqrt(분산)
+
+(import math 돌려줘야 math.sqrt 사용가능)
+
+import math		# math.sqrt(분산)
+
+
+
+[Answer]
+import math
+
+def stddev(*x):
+
+	sum=0
+	for i in x:
+		sum=sum+i
+
+	m=sum/len(x)	# 평균
+
+
+	pjh=0
+	for i in range(0,len(x)):
+		pjh=pjh+((x[i]-m)**2)	# 편차제곱합
+
+
+	bunsan=pjh/(len(x)-1)		# 분산
+
+	return math.sqrt(bunsan)	# 표준편차
+
+
+stddev(2,3,1,7)	# 2.62995
+
+
+# 또는 아래처럼 편차제곱합 구해도 됨
+
+	for i in x:
+		pjh=pjh+((i-m)**2)	# 편차제곱합
+
+
+
+import math
+
+def stddev(*arg):
+	def mean():
+		return sum(arg)/len(arg)
+	def variance(m):
+		total=0
+		for i in arg:
+			total += (i-m)**2
+		return total/(len(arg)-1)
+	v=variance(mean())
+	return math.sqrt(v)
+
+stddev(2,3,1,7)		# 2.62995
+
+
+
+
+
+#-----------------------------------------------------------------------------#
+내가 만든 stddev 함수를 메소드로 만들어서
+앞으로 계속 파이썬 사용할 때마다 불러들여서 사용가능하게 하는 방법
+#-----------------------------------------------------------------------------#
+# c드라이브에 python 폴더 만들고 그 안에 (import math부터 def stddev를 복붙한 메모장)을 stddev.py 파일명으로 저장하기(파일 확장자도 txt가 아니라 py프로그램이여야함)
+
+=> c:\python\stddev.py
+
+
+* 구성-폴더 및 검색옵션-보기-알려진 파일 형식의 파일 확장명 숨기기-체크 풀기
+
+import sys
+sys.path.append('c:\\python')
+sys.path
+
+import stddev
+
+stddev.stddev(2,3,1,7)
+#-----------------------------------------------------------------------------#

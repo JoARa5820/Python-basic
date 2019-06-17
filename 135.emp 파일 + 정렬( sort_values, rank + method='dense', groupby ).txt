@@ -1,0 +1,254 @@
+[135]
+급여 10000 이상인 사원들의 이름과 급여, 입사일을 출력하세요. 급여를 기준으로 내림차순하세요.
+
+[Answer]
+e_s = emp[['LAST_NAME','SALARY','HIRE_DATE']][emp['SALARY']>=10000]
+
+e_s.sort_values(by='SALARY',axis=0,ascending=False)
+
+또는
+
+# by=['SALARY','HIRE_DATE'] 이런식으로 여러개 넣을 수도 있음
+
+emp[['LAST_NAME','SALARY','HIRE_DATE']][emp['SALARY']>=10000].sort_values(by='SALARY',ascending=False)
+
+
+
+
+
+
+[136]
+급여를 많이 받는 순으로 10위까지 구하세요.
+
+[Answer]
+emp[['EMPLOYEE_ID','LAST_NAME','SALARY']].sort_values(by='SALARY',ascending=False).head(10)
+
+또는
+
+emp[emp['SALARY'].rank(ascending=False,method='dense')<=10][['EMPLOYEE_ID','LAST_NAME','SALARY']]
+
+또는
+
+emp['rank']=emp['SALARY'].rank(ascending=False,method='dense')
+
+emp[emp['rank']<=10].sort_values('rank')
+
+
+
+
+
+
+[150]
+부서번호,급여를 기준으로 내림차순 정렬해서 아래 화면처럼 컬럼정보를 출력하세요.
+
+     deptno  empid         name      sal
+105   110.0    205      Higgins  12008.0
+106   110.0    206        Gietz   8300.0
+8     100.0    108    Greenberg  13208.8
+9     100.0    109       Faviet   9900.0
+10    100.0    110         Chen   8200.0
+12    100.0    112        Urman   7800.0
+11    100.0    111      Sciarra   7700.0
+13    100.0    113         Popp   6900.0
+
+
+[Answer]
+import pandas as pd
+from pandas import Series,DataFrame
+
+emp = pd.read_csv('c:/data/emp.csv')
+
+emp[['DEPARTMENT_ID','EMPLOYEE_ID','LAST_NAME','SALARY']].sort_values(by=['DEPARTMENT_ID','SALARY'],ascending=False)
+
+
+
+
+
+
+[151]
+index 번호 0부터 50까지 부서번호, 급여를 기준으로 내림차순 정렬한 후 아래결과처럼 출력하세요.
+
+    deptno  empid         name      sal
+8    100.0    108    Greenberg  13208.8
+9    100.0    109       Faviet   9900.0
+10   100.0    110         Chen   8200.0
+12   100.0    112        Urman   7800.0
+11   100.0    111      Sciarra   7700.0
+13   100.0    113         Popp   6900.0
+
+
+[Answer]
+emp.ix[0:51]	# 51번까지 해야 인덱스 50번까지 나옴
+
+emp.ix[0:51][['DEPARTMENT_ID','EMPLOYEE_ID','LAST_NAME','SALARY']].sort_values(by=['DEPARTMENT_ID','SALARY'],ascending=False)
+
+또는
+
+emp[['DEPARTMENT_ID','EMPLOYEE_ID','LAST_NAME','SALARY']].ix[0:51].sort_values(by=['DEPARTMENT_ID','SALARY'],ascending=False)
+
+
+
+
+
+
+[152]
+50번 부서 사원들의 정보를 급여를 기준으로 내림차순 정렬해서 해서 아래 화면처럼 컬럼정보를 출력하세요.
+
+   empid         name  deptno     sal
+21    121        Fripp    50.0  8200.0
+20    120        Weiss    50.0  8000.0
+22    122     Kaufling    50.0  7900.0
+23    123      Vollman    50.0  6500.0
+24    124      Mourgos    50.0  5800.0
+84    184     Sarchand    50.0  4200.0
+
+
+[Answer]
+emp[['DEPARTMENT_ID','EMPLOYEE_ID','LAST_NAME','SALARY']][emp['DEPARTMENT_ID']==50].sort_values(by='SALARY',ascending=False)
+
+
+
+
+
+
+[172]
+2016년도에 태어난 아이 이름 상위 10까지 보여주세요. 성별 상위 5까지 보여주세요.
+
+[Answer]
+import  pandas  as  pd
+
+yob2016 = pd.read_csv("c:\data\yob2016.csv", names = ['name','sex','count'])
+
+yob2 = yob2016.sort_values(by='count',ascending=False)
+yob2
+
+
+# 이름 상위 10:
+yob2.head(10)
+
+# 성별 상위 5
+girl = yob2[yob2['sex']=='F'].head(5)
+boy = yob2[yob2['sex']=='M'].head(5)
+
+
+또는
+
+import pandas as pd 
+
+yob2016 = pd.read_csv('c:\data\yob2016.txt', names=['name','gender','birth'])
+
+def top(df, n=5, column='birth'):
+    return df.sort_values(by=column, ascending=False)[:n]
+
+print(top(yob2016 , n=10))
+
+print(yob2016.groupby('gender').apply(top)) # apply(적용해야할 함수)
+
+
+#
+print(top(yob2016 , n=10))
+           name gender  birth
+0          Emma      F  19414
+1        Olivia      F  19246
+18757      Noah      M  19015
+18758      Liam      M  18138
+2           Ava      F  16237
+3        Sophia      F  16070
+18759   William      M  15668
+18760     Mason      M  15192
+18761     James      M  14776
+4      Isabella      F  14722
+
+
+#
+print(yob2016.groupby('gender').apply(top))
+                  name gender  birth
+gender                              
+F      0          Emma      F  19414
+       1        Olivia      F  19246
+       2           Ava      F  16237
+       3        Sophia      F  16070
+       4      Isabella      F  14722
+M      18757      Noah      M  19015
+       18758      Liam      M  18138
+       18759   William      M  15668
+       18760     Mason      M  15192
+       18761     James      M  14776
+
+
+# obj.rank(ascending=False,method='dense') : 같은 등수의 인원이 있을 경우 dense로 해줘야함
+
+
+
+
+
+
+[173]
+emp1.csv 데이터를 이용해서 급여를 많이 받는 순으로 10위까지 구하세요.
+
+[Answer]
+import pandas as pd
+from pandas import Series,DataFrame
+
+emp1 = pd.read_csv('c:/data/emp1.csv', names = ['empid','name','hire_date','sal','deptno'])
+
+emp1['rank'] = emp1['sal'].rank(ascending=False,method='dense') # emp1['rank']열을 추가해줌
+
+# emp1['rank']
+# emp1
+
+
+
+
+
+
+[174]
+emp1.csv 데이터를 이용해서 부서별로 급여를 많이 받는 순으로 5위까지 구하세요.
+
+[Answer]
+emp1['dept_rank'] = emp1['sal'].groupby(emp1['deptno']).rank(ascending=False,method='dense') # emp1['dept_rank']열을 추가해줌
+
+emp1[emp1['dept_rank']<=5].sort_values(['deptno','dept_rank'])
+
+
+
+
+
+
+[175]
+yob2016.txt 데이터를 이용해서 아기 이름 순위 10위까지 구하세요.
+
+[Answer]
+import pandas as pd 
+
+yob2016 = pd.read_csv('c:\data\yob2016.csv', names=['name','gender','birth'])
+
+yob2016['rank'] = yob2016['birth'].rank(ascending=False,method='dense')
+
+yob2016[yob2016['rank']<=10].sort_values('rank')
+
+
+
+
+
+
+[176]
+yob2016.txt 데이터를 이용해서 성별 아기 이름 순위 5위까지 구하세요.
+
+[Answer]
+import pandas as pd
+
+yob2016 = pd.read_csv('c:\data\yob2016.csv', names=['name','gender','birth'])
+
+yob2016['w_rank'] = yob2016['birth'][yob2016['gender']=='F'].rank(ascending=False,method='dense')
+
+yob2016['m_rank'] = yob2016['birth'][yob2016['gender']=='M'].rank(ascending=False,method='dense')
+
+yob2016[yob2016['w_rank']<=5].sort_values('w_rank')
+yob2016[yob2016['m_rank']<=5].sort_values('m_rank')
+
+
+또는
+
+yob2016['gender_rank'] = yob2016['birth'].groupby(yob2016['gender']).rank(ascending=False, method='dense')
+yob2016[yob2016['gender_rank'] <= 5].sort_values(['gender','gender_rank'])

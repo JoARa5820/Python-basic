@@ -1,0 +1,47 @@
+[55]
+약수를 구하는 divisor 함수를 생성하세요.
+
+1이상의 숫자를 입력하세요: 100
+[100, 50, 25, 20, 10, 5, 4, 2, 1]
+
+
+[Answer]
+
+# 비효율적인 약수 구하는 함수
+
+num1 = int(input('1이상의 숫자를 입력하세요 : '))
+
+def divisor(num1):
+	for i in range(1,num1+1):
+		if(num1%i == 0):
+			print(i,end='')
+
+divisor(num1)
+
+
+또는
+
+
+# 효율적인 약수 구하는 함수
+
+print("약수란 어떤 정수를 나누어 떨어지게 하는, 0이 아닌 정수이다. 음의 정수도 약수가 되지만 일반적으로 양의 약수만 다룬다")
+
+num1 = int(input("1이상의 숫자를 입력하세요: "))
+
+def divisor(num1):
+    num2 = int(num1/2)		# num1에 33을 넣어서 num2가 33/2일때 16.5가 아니라 16임
+    num3 = []
+    num3.append(num1)
+    while num2 >= 1:
+        if num1 % num2 == 0:
+            num3.append(num2)
+        num2 -= 1
+    return(sorted(num3))    
+    #return(sorted(num3,reverse=False))
+ 
+print(divisor(num1))
+
+
+# num1=30 넣었을 때 출력값:
+print(divisor(num1))
+[1, 2, 3, 5, 6, 10, 15, 30]

@@ -1,0 +1,154 @@
+#-----------------------------------------------------------------------------#
+import pandas as pd
+from pandas import Series,DataFrame
+
+emp = pd.read_csv('c:/data/emp.csv')
+#-----------------------------------------------------------------------------#
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+file.close()
+#-----------------------------------------------------------------------------#
+
+
+[144]
+관리자 사원의 이름, 입사일, 급여를 출력하세요.
+
+[Answer]
+emp[['LAST_NAME','HIRE_DATE','SALARY']][emp['EMPLOYEE_ID'].isin(emp['MANAGER_ID'])]
+
+
+<pandas 외의 방법으로 풀어보기>
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+v_mgr=[]
+
+for emp_list in emp_csv:
+    if(not emp_list[9] in v_mgr) & (emp_list[9] != ''):
+        v_mgr.append(emp_list[9])
+print(len(v_mgr))
+
+file.close()
+
+v_mgr
+
+# 그리고 이어서 아래 돌리기
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+for emp_list in emp_csv:
+    for mgr in v_mgr:
+        if emp_list[0]==mgr:
+            print(emp_list[2],emp_list[5],emp_list[7])
+
+file.close()
+
+
+
+
+
+
+[145]
+101번 사원의 관리자 이름, 입사일, 급여정보를 출력하세요.
+
+
+[Answer]
+
+1. pandas를 이용해서 해결
+
+import pandas as pd
+from pandas import Series,DataFrame
+
+
+emp = pd.read_csv('c:/data/emp.csv')
+
+m_id = emp['MANAGER_ID'][emp['EMPLOYEE_ID']==101]	# 101번 사원의 관리자번호
+
+=> 관리자 번호가 시리즈 형식으로 리턴된다.
+
+m_id
+Out[22]: 
+10    100.0
+Name: MANAGER_ID, dtype: float64
+
+
+emp[['LAST_NAME','HIRE_DATE','SALARY']][emp['EMPLOYEE_ID']==int(m_id)]
+Out[23]: 
+  LAST_NAME  HIRE_DATE  SALARY
+9      King   20030617   29040
+
+
+=> int(m_id) 대신 m_id.values[0]로 해줘도 된다.
+
+
+
+2. 일반적으로 csv 파일을 읽어서 해결
+
+<1>
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+mrg_id = []
+
+for emp_list in emp_csv:
+    if emp_list[0]=='101':
+        mrg_id.append(emp_list[9])
+
+file.close()
+
+# 그리고 이어서 아래 돌리기
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+for emp_list in emp_csv:
+    for mgr in mrg_id:		# 굳이 여기 for문을 돌릴 필요가 없음 / m_id가 하나라서
+        if emp_list[0]==mgr:
+            print(emp_list[2],emp_list[5],emp_list[7])
+
+file.close()
+
+
+또는
+
+<2>
+import  csv
+
+file = open("c:\data\emp.csv",'r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+
+v_mgr = []
+
+for emp_list in emp_csv:
+    if  emp_list[0] == '101':
+        v_mgr.append(emp_list[9])
+
+file.close()
+
+file = open("c:\data\emp.csv",'r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+
+for emp_list in emp_csv:
+    if emp_list[0] == v_mgr[0]:			# v_mgr[0]:'100' / v_mgr:['100']
+        print(emp_list[2], emp_list[5], emp_list[7])
+
+file.close()     
+
+
+# 위의 방법은 필터술어 방법
+   필터술어 방식 : full scan
+   엑세스술어 방식 : rowid scan

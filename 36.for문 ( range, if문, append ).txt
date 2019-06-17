@@ -1,0 +1,120 @@
+[36] 
+학생들의 점수가 90,55,63,78,80 점이 있습니다.
+60점 이상이면 합격, 60점 미만이면 불합격 출력해 주세요.
+
+[Answer]
+x=[90,55,63,78,80]
+
+for i in x:
+    if i >= 60:
+        print('합격')
+    else:
+        print('불합격')
+
+
+
+
+[37] 
+1부터 100까지 합을 구하세요.(for 이용)
+
+[Answer]
+sum=0
+
+for i in range(1,101,1):
+	sum=sum+i
+
+print(sum)
+
+
+
+
+[38] 
+1부터 10까지 출력하세요. 단 4, 8은 제외(for 이용)
+
+[Answer]
+for i in range(1,11,1):
+	if i != 4 and i != 8:
+		print(i)
+
+또는
+
+for i in range(1,11,1):
+	if i == 4 and i == 8:
+		continue
+	print(i)
+
+
+
+
+[39]
+화면과 같이 출력하세요.(for 이용)
+
+가로의 숫자를 입력하세요 : 5
+세로의 숫자를 입력하세요 : 5
+★ ★ ★ ★ ★ 
+★ ★ ★ ★ ★ 
+★ ★ ★ ★ ★ 
+★ ★ ★ ★ ★ 
+★ ★ ★ ★ ★ 
+
+
+[Answer]
+x = int(input('가로의 숫자를 입력하세요: '))
+y = int(input('세로의 숫자를 입력하세요: '))
+
+for i in range(y):
+	print('★'*x)
+
+
+
+
+[43]
+1부터 9까지 x 리스트 변수에 입력하세요.
+y변수는 x 변수의 값을 2곱한 값으로 입력해주세요.
+
+[Answer]
+x = range(1,10)
+y = []
+
+for i in x:
+	y.append(i*2)
+
+y
+
+
+
+
+[47] 
+튜플변수에 사과, 귤, 오렌지, 배, 포도, 바나나, 자몽, 키위, 딸기, 블루베리, 망고를 입력하시고 
+과일이름중에 세글자 이상인 과일만  fruit_lst변수에 입력해주세요.
+
+[Answer]
+x = ('사과','귤','오렌지','배','포도','바나나','자몽','키위','딸기','블루베리','망고')
+
+y = range(0,len(x),1)
+y
+
+fruit_lst=[]
+fruit_lst
+
+for i in y:
+    if len(x[i]) >= 3:
+        fruit_lst.append(x[i])
+
+print(fruit_lst)
+
+또는
+
+fruit_lst=[]
+fruit_lst
+
+for i in x:
+    if len(i) >= 3:
+        fruit_lst.append(i)
+
+print(fruit_lst)
+
+또는
+
+fruit_lst2=[i for i in x if len(i)>=3]
+print(fruit_lst2)

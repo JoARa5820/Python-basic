@@ -1,0 +1,33 @@
+[158]
+emp_new.csv 를 emp리스트 변수안에 아래 모양과 같은 딕셔너리 데이터 유형에 데이트를 입력한 후 출력하세요.
+
+{'empno': 100, 'ename': King, 'job': AD_PRES, 'mgr': '', 'hiredate': 2003-06-17, 'sal': 24000, 'comm': '', 'deptno': 90}
+
+
+100 King AD_PRES  2003-06-17 24000  90
+101 Kochhar AD_VP 100 2005-09-21 17000  90
+102 De Haan AD_VP 100 2001-01-13 17000  90
+103 Hunold IT_PROG 102 2006-01-03 9000  60
+104 Ernst IT_PROG 103 2007-05-21 6000  60
+
+
+[Answer]
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+
+emp_new=[]
+
+emp_csv
+
+for j in emp_csv:
+    emp_new.append({'empno':j[0],'name':j[1],'job':j[2],'mgr':j[3],'hire_date':j[4],'sal':j[5],'comm':j[6],'deptno':j[7]})
+
+emp_new
+
+
+for e in emp_new:
+    print(e['empno'],e['name'],e['job'],e['mgr'],e['hire_date'],e['sal'],e['comm'],e['deptno'])
+
+file.close()

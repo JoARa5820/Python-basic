@@ -1,0 +1,78 @@
+[165]
+emp_new.csv 파일  데이터에 커미션 정보를 분석하려 합니다.
+커미션에 null값들의 수, null이 아닌값들의 수를 구하세요.
+
+
+[Answer]
+
+1. 일반적으로 csv file을 읽어서 해결
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+all=0 # 전체인원수
+cn_null=0 # 커미션 null의 수
+
+for emp_list in emp_csv:
+	all = all+1
+	if emp_list[8]=='':
+		cn_null=cn_null+1
+
+print('null의 수: ',cn_null)
+print('null이 아닌 수',all-cn_null)
+
+file.close()
+
+=>
+null의 수:  72
+null이 아닌 수 35
+
+
+
+2. pandas를 이용해서 해결
+import pandas as pd
+from pandas import Series,DataFrame
+
+emp = pd.read_csv('c:/data/emp.csv')
+
+# null의 수
+emp['SALARY'][emp['COMMISSION_PCT'].isnull()].count()
+Out[31]: 72
+
+# null이 아닌 수
+emp['SALARY'][emp['COMMISSION_PCT'].notnull()].count()
+Out[33]: 35
+
+
+#-----------------------------------------------------------------------------#
+
+1. 일반적으로 csv file을 읽어서 해결
+
+import  csv
+
+file = open("c:\data\emp_new.csv",'r')
+emp_csv = csv.reader(file)
+cn1 = 0
+cn2 = 0
+for emp_list in emp_csv:
+    if  emp_list[6] =='':
+        cn1 += 1
+    else:
+        cn2 += 1
+print('null 수 :' ,cn1) 
+print('null 아닌 수:',cn2)
+file.close()
+
+
+2. pandas를 이용해서 해결
+
+from pandas import Series, DataFrame
+import pandas as pd
+import numpy as np
+
+emp = pd.read_csv("c:\data\emp_new.csv", names = ['empid','name','job','mgr','hire_date','sal','comm','deptno'])
+
+print('null 수 :', emp[emp['comm'].isnull()] ['empid'].count()) 
+print('null 아닌 수:',emp[emp['comm'].notnull()] ['empid'].count())

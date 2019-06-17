@@ -1,0 +1,50 @@
+[141]
+last_name의 첫글자가 S로 시작되는 사원들의 last_name을 출력하세요.
+
+
+[Answer]
+
+def first_character(w):
+	if w[0] == 'S':
+		return True
+	return False
+
+
+emp['LAST_NAME'][emp['LAST_NAME'].apply(first_character)]
+
+emp[emp['LAST_NAME'].apply(first_character)]['LAST_NAME']
+
+emp.ix[emp['LAST_NAME'].apply(first_character),'LAST_NAME']
+
+emp.ix[emp['LAST_NAME'].apply(lambda x : x[0])=='S','LAST_NAME']
+
+emp.ix[emp['LAST_NAME'].apply(lambda x : x.startswith('S')),'LAST_NAME']
+
+
+
+
+
+
+[142]
+last_name이 g로 끝나는 사원들의 이름, 급여를 출력하세요.
+
+
+[Answer]
+
+# len(w)-1 대신 그냥 -1 해도 됨
+
+def last_character(w):
+	if w[len(w)-1] == 'g':
+		return True
+	return False
+
+
+emp[['LAST_NAME','SALARY']][emp['LAST_NAME'].apply(last_character)]
+
+emp[emp['LAST_NAME'].apply(last_character)][['LAST_NAME','SALARY']]
+
+emp.ix[emp['LAST_NAME'].apply(last_character),['LAST_NAME','SALARY']]
+
+emp.ix[emp['LAST_NAME'].apply(lambda x : x[len(x)-1])=='g',['LAST_NAME','SALARY']]
+
+emp.ix[emp['LAST_NAME'].apply(lambda x : x.endswith('g')),['LAST_NAME','SALARY']]

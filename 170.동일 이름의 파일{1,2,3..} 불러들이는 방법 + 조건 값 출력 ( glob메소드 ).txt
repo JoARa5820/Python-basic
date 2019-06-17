@@ -1,0 +1,38 @@
+[170]
+emp1.csv, emp2.csv파일을 읽어서 부서별 총액급여를 구하세요.
+
+## 여기서 "c:\data\emp.csv"라고 하면 안되는 이유: 이미 data폴더에 emp로 시작되는 파일들이 많이 들어있기 때문에 모든 emp파일들을 불러들임, 때문에 아래처럼 python_data 폴더 만든 후에 거기에 emp* 파일을 넣어줘야함
+='C:/python_data/ 폴더 만들어서 파일 넣기
+
+
+[Answer]
+import pandas as pd
+
+emp = pd.DataFrame()
+for i in range(1,3): # 1,2번 파일 불러들이기
+    file = 'c:/python_data/emp{}.csv'.format(i) # glob 사용하지 않을 경우 직접 만들어줘야함
+    temp = pd.read_csv(file, names = ['empid','name','hire_date','sal','deptno'])
+    emp = emp.append(temp)
+
+print(emp['sal'].groupby(emp['deptno']).sum())
+
+# https://catalog.data.gov/dataset/baby-names-from-social-security-card-applications-national-level-data
+
+
+또는
+
+# glob 메소드
+
+import glob
+import pandas as pd
+
+# 파일 이름이 규칙적으로 emp로 시작되면서 뒤에 *만 다를 경우 한번에 읽어들일수있음
+file = 'c:/python_data/emp*.csv'
+file_list = glob.glob(file)
+print(file_list)
+emp = pd.DataFrame()
+for i in file_list:
+    temp = pd.read_csv(i, names =  ['empid','name','hire_date','sal','deptno'])
+    emp = emp.append(temp)
+
+print(emp['sal'].groupby(emp['deptno']).sum())

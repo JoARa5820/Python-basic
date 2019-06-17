@@ -1,0 +1,73 @@
+[146]
+최고 급여, 최저 급여 출력하세요.
+
+
+[Answer]
+import  pandas  as  pd
+
+emp = pd.read_csv("c:\data\emp.csv")
+
+emp['SALARY'].max()
+Out[109]: 29040
+
+emp['SALARY'].min()
+Out[110]: 2100
+
+
+또는
+
+import  csv
+
+file = open("c:\data\emp.csv",'r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+
+sal = []
+
+for emp_list in emp_csv:
+    sal.append(int(emp_list[7]))
+
+print(max(sal)) # max와 min은 파이썬에 기본적으로 내장되있는 메소드임
+print(min(sal))
+
+file.close()
+
+
+
+# 최대값 뽑아내기
+import  csv
+
+file = open("c:\data\emp.csv",'r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+
+sal = 0
+
+for emp_list in emp_csv:
+    if int(emp_list[7]) > int(sal):
+        sal = emp_list[7]
+
+print(sal)
+
+file.close()
+
+
+
+# 최소값 뽑아내기
+import  csv
+
+file = open("c:\data\emp.csv",'r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+
+sal = 1000000000000
+
+for emp_list in emp_csv:
+    if int(emp_list[7]) < int(sal):
+        sal = emp_list[7]
+
+print(sal)
+
+file.close()
+
+=> 0번 인덱스를 먼저 넣고 비교해도 됨

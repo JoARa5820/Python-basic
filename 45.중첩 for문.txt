@@ -1,0 +1,34 @@
+[45] 
+변수에 아래와 같이 들어 있습니다. 아래처럼 결과를 출력하세요.
+
+lst1 = [1,2,3]
+lst2 = [4,5,6]
+
+출력결과 : [4, 5, 6, 8, 10, 12, 12, 15, 18]
+
+
+[Answer]
+lst1 = [1,2,3]
+lst2 = [4,5,6]
+
+for x in lst1:
+    for y in lst2:
+        print(x*y) # 모든 값이 하나씩 총 9줄로 출력됨
+
+# 9줄로 출력 안하고 가로줄로 바꾸는 옵션: print(x*y, end=',') : 맨 뒤에도 콤마가 붙기 때문에 밑처럼 append 사용하는게 좋음
+
+또는
+
+lst3 = []
+
+for x in lst1:
+	for y in lst2:
+		lst3.append(x*y)
+
+print(lst3)
+
+
+## 리스트 내장객체 사용
+# [표현식 for 반복변수 in 반복가능한 객체]
+
+lst3 = [x*y for x in lst1 for y in lst2]	# [표현식 메인포문 서브포문]

@@ -1,0 +1,26 @@
+[48]
+과일판매 현황을 dictionary 변수로 생성하세요. 과일 이름을 키로 하고 수량은 값으로 표현한후
+과일이름만 대문자로 출력해주세요.
+
+apple  100 , banana  300, orange  300
+
+
+[Answer]
+dic={'apple':100,'banana':300,'orange':300}
+dic
+
+for i,v in dic.items():
+    print(i.upper()+':'+str(v),end=',\0') # str:문자로 형변환하는 메소드 / \0: 한 탭 띄우기
+
+
+
+# 괄호 안닫아주면 오류남 / 어떤 괄호든 상관은 없음 / 리스트 타입으로 출력해줌
+[[i.upper(),v] for i,v in dic.items()]
+[(i.upper(),v) for i,v in dic.items()]
+[{i.upper(),v} for i,v in dic.items()]
+
+# 단지 과일 이름만 출력해주고 싶은 경우
+for i in dic.keys():
+    print(i.upper(),end=',')
+
+[i.upper() for i in dic.keys()]

@@ -1,0 +1,21 @@
+[101]
+이름, 입사한 요일(한글)을 출력해주세요.
+
+[Answer]
+import csv
+import datetime
+
+
+file = open('c:/data/emp.csv','r')
+
+days=['월요일','화요일','수요일','목요일','금요일','토요일','일요일'] # 0~6
+
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	a = datetime.datetime.strptime(emp_list[5],'%Y%m%d')	# %Y%m%d: 내 데이터 모양대로
+	print(emp_list[2],days[a.weekday()])
+
+file.close()
+
+=> datetime과 time중 둘 중 하나만 사용해야함 / 문자형-날짜형 변환 해줘야함

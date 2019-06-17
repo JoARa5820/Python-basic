@@ -1,0 +1,110 @@
+[85]
+프로그램을 생성하세요.
+
+액수입력 : 362
+화폐단위를 입력하세요 : 100 50 1
+100원 : 3개
+50원 : 1개
+1원 : 12개
+
+
+
+[Answer]
+
+money=int(input('액수입력: '))
+
+print('화폐단위를 입력하세요: ')
+
+a=int(input())
+b=int(input())
+c=int(input())
+
+# //:몫, %:나머지
+k = [a,b,c]
+k.sort(reverse=True) # reverse=True:내림차순
+# k
+
+def greedy(price,x,y,z):
+    
+    k = [x,y,z]
+    k.sort(reverse=True) # reverse=True:내림차순
+    x=k[0]
+    y=k[1]
+    z=k[2]
+    
+    sum_x = price//x
+    price=price%x
+
+    sum_y = price//y
+    price=price%y
+    
+    sum_z = price//z
+    return sum_x,sum_y,sum_z
+        
+
+val=greedy(money,a,b,c) # tuple 형식
+val
+# type(val)
+# val[2]
+print(k[0],'원짜리는 ',val[0],'개 있고, ',k[1],'원짜리는 ',val[1],'개 있고, ',k[2],'원짜리는 ',val[2],'개 있다.',sep='')
+
+
+또는
+
+
+# divmod: 몫과 나머지를 리턴해주는 메소드
+# cash_type: 리스트타입 [100,50,1]로 저장됨
+
+
+def coinGreedy(money, cash_type):	# 362,[100,50,1]
+    cash_type.sort(reverse=True)	# 금액을 [1 100 50] 으로 입력했을때 큰단위부터 정렬
+ 					# [100 50 1]
+    remain = money 
+    res = {}				# dictionary 타입
+    for cash in cash_type:		# cash에 [100,50,1] 순서로 넣어져서 for문 돌아감
+
+        dvmd = divmod(remain,cash)	# dvmd = divmod(362,100)
+					# dvmd = divmod(62,50)
+					# dvmd = divmod(12,1)
+
+					# divmod:몫과 나머지를 리턴해줌:(3,62)로 나옴
+
+        res[cash] = dvmd[0]		# 0번 인덱스에 몫을 넣어줌 : 3
+        remain = dvmd[1]		# 1번 인덱스에 나머지를 넣어줌 : 62
+    return res
+
+
+
+money = int(input('액수입력 : '))
+cash_type = [int(x) for x in input('화폐단위를 입력하세요 : ').split(' ')]
+res = coinGreedy(money,cash_type)		# 위 함수안 res와는 다른애임
+for k,v in res.items():
+    print('{0}원 : {1}개'.format(k,v))
+
+
+
+#-----------------------------------------------------------------------------#
+
+import operator
+
+# sorted라는 메소드 안에 key=operator.itemgetter(0)라는 옵션을 쓰려면 import operator 모듈을 불러들여야함
+# sorted:정렬에 대한 미리보기
+# key=operator.itemgetter() : 안에 0쓰면 키, 1쓰면 밸류
+# key=operator.itemgetter(0): 딕셔너리 안의 키를 기준으로 오름차순 해줘
+# key=operator.itemgetter(1): 딕셔너리 안의 밸류를 기준으로 오름차순 해줘
+# reverse=True: 내림차순
+
+
+for k,v in sorted(res.items(), key=operator.itemgetter(0)):	# 키 기준 오름차순
+    print('{0}원 : {1}개'.format(k,v))
+
+for k,v in sorted(res.items(), key=operator.itemgetter(1)):	# 밸류 기준 오름차순
+    print('{0}원 : {1}개'.format(k,v))
+
+for k,v in sorted(res.items(), key=operator.itemgetter(0), reverse=True): # 키 기준 내림차순
+    print('{0}원 : {1}개'.format(k,v))
+
+for k,v in sorted(res.items(), key=operator.itemgetter(1), reverse=True): # 밸류기준내림차순
+    print('{0}원 : {1}개'.format(k,v))
+
+#-----------------------------------------------------------------------------#

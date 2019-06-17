@@ -1,0 +1,162 @@
+[49]
+함수에 두개의 숫자를 입력값으로 받아서 값을 비교하는 함수를 생성하세요.
+
+# 힌트:
+def num_compare(x,y):
+	num_compare(10,5)
+
+
+[Answer]
+
+def num_compare(x,y):
+    if x > y:
+        print(x,'가 ',y,'보다 큽니다.')
+    elif x < y:
+        print(y,'가 ',x,'보다 큽니다.')
+    else:
+        print(x,'와 ',y,'는 같습니다.')
+
+
+# 출력값:
+num_compare(10,5)
+
+10 가  5 보다 큽니다.
+
+num_compare(1,5)
+
+5 가  1 보다 큽니다.
+
+num_compare(1,1)
+
+1 와  1 는 같습니다.
+
+또는
+
+def num_compare(x,y):
+    if x > y:
+        print('{}은 {}보다 큽니다.'.format(x,y))
+    elif x == y:
+        print('{}와 {}는 같습니다.'.format(x,y))
+    else:
+        print('{}은 {}보다 큽니다.'.format(y,x))
+
+num_compare(10,5)
+
+
+
+
+
+[50]
+두 인수값을 받아서 합한 값을 리턴해주는 sum 함수를 생성하세요.
+
+[Answer]
+
+<로컬변수>
+def sum(x,y):		# x,y는 로컬변수
+	return x+y
+
+sum(1,2)
+
+
+<가변변수>
+def sum(*x):		# 이제 x는 가변변수임
+	total=0
+	for i in x:
+		total += i
+	return total
+
+sum(1,2,3,4,5)
+sum(1,2,3)
+
+
+
+
+
+[51] 
+sum,multiply 중 뭘 써넣느냐에 따라 그에 맞춰 값 계산하는 함수 만들기
+
+# 힌트:
+cal('sum',1,2,3,4,5)		# 합
+cal('multiply',1,2,3,4,5)	# 곱
+
+def cal(arg1,*arg2):		# arg1: sum이나 multiply 아무거나 / arg2: 가변
+
+
+[Answer]
+def cal(arg1,*arg2):
+
+	if arg1.lower()=='sum':
+		total=0
+		for i in arg2:
+			total += i
+
+
+	elif arg1.lower()=='multiply':
+		total=1
+		for i in arg2:
+			total *= i
+	
+	return total
+
+
+cal('SUM',1,2,3,4,5)
+cal('mulTIplY',1,2,3,4,5)
+
+
+
+
+
+[52] 
+여러 숫자를 인수값으로 받아서 합과 평균을 출력하는 aggF함수를 생성하세요.
+
+aggF(1,2,3,4,5,6,7,8,9,10)
+  
+합 :  55
+평균 : 5.5 
+
+
+[Answer]
+def aggF(*x):
+	sum=0
+	for i in x:
+		sum += i
+	print('합:',sum,'/ 평균:',sum/len(x))
+
+aggF(1,2,3,4,5,6,7,8,9,10)
+
+또는
+
+def aggF(*x):
+	total=0
+	for i in x:
+		total += i
+	avg=total/len(x)
+	print('sum=%d, avg=%0.2f' %(total,avg))	# 소수점을 제어하는 포맷문: %0.2f
+	return total,avg
+
+sum,avg = aggF(1,2,3,4,5,6,7,8,9,10) # 이렇게 해도 출력 됨
+
+
+
+
+
+[53] 
+입력값을 누적해서 더하는 함수를 작성하세요.
+
+>>> print(add(2))
+2
+
+>>> print(add(8))
+10
+
+
+[Answer]
+
+nu=0
+
+def add(x):
+	global nu
+	nu = nu + x
+	print('누적합은: ',nu)		# return nu라고 해도 됨
+
+add(4)					# print(add(4))라고 해도 됨

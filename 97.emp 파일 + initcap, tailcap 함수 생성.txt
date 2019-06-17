@@ -1,0 +1,37 @@
+[97]
+이름을 입력하면 첫글자는 대문자, 나머지는 소문자를 출력하는 initcap함수를 이용해서 이름을 출력하세요.
+
+[Answer]
+def initcap(x):
+	return x[0].upper()+x[1:].lower()
+
+
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	print(initcap(emp_list[2]))
+file.close()
+
+
+
+
+
+[98]
+이름을 입력하면 제일 뒤에 있는 철자는 대문자, 앞의 문자는 소문자로 출력하는 tailcap 함수를 생성하세요.
+
+[Answer]
+def tailcap(x):
+	return x[:-1].lower()+x[-1].upper()
+
+
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	print(tailcap(emp_list[2]))
+file.close()

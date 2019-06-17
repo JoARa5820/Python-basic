@@ -1,0 +1,31 @@
+[143]
+110번 사원의 급여보다 많이 받는 사원들의 이름, 급여를 출력하세요.
+
+[Answer]
+m = emp['SALARY'][emp['EMPLOYEE_ID']==110]
+m
+emp[['LAST_NAME','SALARY']][emp['SALARY'] > int(m)]
+emp[['LAST_NAME','SALARY']][emp['SALARY'] > int(emp['SALARY'][emp['EMPLOYEE_ID']==110])]
+emp[emp['SALARY'] > int(m)][['LAST_NAME','SALARY']]
+emp.ix[emp['SALARY'] > int(m),['LAST_NAME','SALARY']]
+
+
+또는
+
+v_110 = emp[emp['EMPLOYEE_ID']==110]['SALARY']
+v_110
+type(v_110)
+
+emp[emp['SALARY'] > int(v_110) ][['LAST_NAME','SALARY']]
+emp[emp['SALARY'] > v_110.values[0]][['LAST_NAME','SALARY']]
+
+
+
+
+
+
+[144]
+관리자 사원의 이름, 입사일, 급여를 출력하세요.
+
+[Answer]
+emp[['LAST_NAME','HIRE_DATE','SALARY']][emp['EMPLOYEE_ID'].isin(emp['MANAGER_ID'])]

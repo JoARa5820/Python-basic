@@ -1,0 +1,107 @@
+[116]
+50번부서 사원들의 이름, 급여 출력하는데 이름을 오름차순으로 출력하세요.
+# 한번에 sort 할 수 없다.
+
+
+[Answer]
+
+from operator import itemgetter	# sorted의 itemgetter를 사용하기 위해 먼저 선언
+
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+emp_list=[]
+
+for i in emp_csv:
+	if i[10]=='50':
+		emp_list.append(i)
+
+emp_list_sorted = sorted(emp_list,reverse=False,key=itemgetter(2))  # 2번 인덱스 기준으로
+
+# sorted(emp_list,,)의 emp_list가 key=itemgetter(2)의 2번에 들어감 (2번 인덱스로..)
+# 2번 인덱스(2번 열)을 기준으로 sorted 하겠다.
+
+for i in emp_list_sorted:
+	print(i[2],i[7])
+
+file.close()
+
+=>
+Atkinson 2800
+Bell 4000
+Bissot 3300
+Bull 4100
+Cabrio 3000
+...
+
+#-----------------------------------------------------------------------------#
+# 만약 from operator import itemgetter와 key=itemgetter(정렬 할 대상컬럼)를 못쓴다면 아래처럼 해줘야함
+
+sorted(emp_list,reverse=False,key=sortCheck)
+
+def sortCheck(data):	# 여기서 data엔 sorted(emp_list,,)의 emp_list 변수가 들어감
+	return (data[2])
+
+=> 2번째 인덱스를 기준으로 sort 시키라는 뜻
+#-----------------------------------------------------------------------------#
+
+또는 람다함수로..
+
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+emp_list=[]
+
+for i in emp_csv:
+	if i[10]=='50':
+		emp_list.append(i)
+
+emp_list_sorted =sorted(emp_list,reverse=False,key=(lambda emp_list : emp_list[2]))
+
+for i in emp_list_sorted:
+	print(i[2],i[7])
+
+file.close()
+
+# emp_list_sorted =sorted(emp_list,reverse=False,key=(lambda emp_list : emp_list[2]))
+# 인덱스(2번 열)을 기준으로 sorted 하겠다.
+    
+
+
+
+
+
+[117]
+job이 ST_CLERK인 사원들의 이름과 입사일과 job을 출력하는데 가장 최근에 입사한 사원부터 출력하세요.
+
+
+[Answer]
+
+from operator import itemgetter	# sorted의 itemgetter를 사용하기 위해 먼저 선언
+
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+emp_list=[]
+
+for i in emp_csv:
+	if i[6]=='ST_CLERK':
+		emp_list.append(i)
+
+emp_list_sorted =sorted(emp_list,reverse=True,key=(lambda emp_list : emp_list[5]))
+# 또는 key=itemgetter(5)
+# 또는 key=lambda data : data[5] <- 굳이 emp_list라고 안써도 됨(앞에 써있기 때문에)
+
+for i in emp_list_sorted:
+	print(i[2],i[5],i[6])
+
+file.close()

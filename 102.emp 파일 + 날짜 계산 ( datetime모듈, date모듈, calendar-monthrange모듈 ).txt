@@ -1,0 +1,47 @@
+[102] 
+이름,입사한 날짜부터 오늘까지 총 몇일 근무했는지 출력하세요.
+
+[Answer]
+import csv
+import datetime
+
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	a=datetime.datetime.now() - datetime.datetime.strptime(emp_list[5],'%Y%m%d')
+	print(emp_list[2],a.days)
+file.close()
+
+
+=> datetime.datetime.now()는 날짜정보가 들어있음 / datetime.date.today()는 날짜정보 없음
+
+a=datetime.datetime.now() - datetime.datetime.strptime(emp_list[5],'%Y%m%d')
+또는	
+a=datetime.date.today() - datetime.datetime.strptime(emp_list[5],'%Y%m%d').date()
+
+# 두 날짜를 뺄셈 할 때는 두 형이 같아야함
+
+
+
+
+
+[103]
+오늘부터 이번달 말일까지 몇일 남았는지 출력하세요.
+
+[Answer]
+from datetime import date
+from calendar import monthrange
+
+monthrange(2018,9)[1]-date.today().day		# 18
+
+=>
+monthrange(2018,9)
+Out[212]: (5, 30)
+
+monthrange(2018,9)[1]
+Out[213]: 30
+
+date.today().day
+Out[214]: 12

@@ -1,0 +1,466 @@
+[90]
+last_name, salary 출력해주세요.
+
+[Answer]
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)		# 리스트 모양임
+next(emp_csv)
+for emp_list in emp_csv:
+	print(emp_list[2],emp_list[7])
+file.close()
+
+
+
+
+
+[91] 
+last_name, last_name 길이를 출력해주세요.
+
+[Answer]
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	print(emp_list[2],len(emp_list[2]))
+file.close()
+
+
+
+
+
+[92] 
+employee_id, last_name, salary * 12달 곱한 값을 출력해주세요.
+
+[Answer]
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	print(emp_list[0],emp_list[2],12*int(emp_list[7]))	# 소수점 없어서 오류안남
+file.close()
+
+또는
+print(emp_list[0],emp_list[2],float(emp_list[7])*12)
+
+
+
+
+
+[93]
+last_name, commission_pct를 출력하는데 commission_pct값이 ''이면 0으로 출력해주세요.
+
+[Answer]
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	if emp_list[8]=='':
+		emp_list[8]=0
+	print(emp_list[2],emp_list[8])
+file.close()
+
+
+또는
+
+def ifnull(var1,var2):
+	if var1=='';
+		return var2
+	return var1
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	print(emp_list[2],ifnull(emp_list[8],0))
+file.close()
+
+
+
+
+
+[94] 
+last_name을 대문자로, job_id를 소문자로 출력해주세요.
+
+[Answer]
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	print(emp_list[2].upper(),emp_list[6].lower())
+file.close()
+
+
+
+
+
+[95] 
+last_name을 첫글자만 추출해서 소문자로 출력해주세요.
+
+[Answer]
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	print(emp_list[2][0].lower())
+file.close()
+
+
+
+
+
+[96] 
+last_name을 두번째부터 마지막까지만 추출해서 대문자로 출력해주세요.
+
+[Answer]
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	print(emp_list[2][1:].upper())
+file.close()
+
+
+
+
+
+[99] 
+이름과 급여를 출력하는데 급여를 출력할때에 0 대신에 *를 출력하세요.
+
+[Answer]
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	print(emp_list[2],emp_list[7].replace('0','*'))
+file.close()
+
+
+
+
+
+[104] 
+사원번호가 100번 사원의 사원이름과 급여를 출력하세요.
+
+[Answer]
+import csv
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+    if int(emp_list[0])==100:
+        print(emp_list[2],emp_list[7])
+file.close()
+
+
+
+
+
+[105] 
+급여가 10000 이상인 사원들의 이름과 급여를 출력하세요.
+
+[Answer]
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+    if int(emp_list[7])>=10000:				# float(emp_list[7])
+        print(emp_list[2],emp_list[7])
+file.close()
+
+
+
+
+
+[106]
+2001-01-13일에 입사한 사원의 이름과 입사일을 출력하세요
+
+내 파일 속 날짜정보 : 20010113 : '%Y%m%d'
+
+[Answer]
+# 문자로 비교하고싶다.
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+    if emp_list[5]=='20010113':
+        print(emp_list[2],emp_list[5])
+file.close()
+
+
+또는
+
+# (문자 대신) 날짜로 비교하고싶다.
+import time
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+    if time.strptime(emp_list[5],'%Y%m%d')==time.strptime('20010113','%Y%m%d'):
+        print(emp_list[2],emp_list[5])
+file.close()
+
+
+
+
+
+[107]
+2002 년도에 입사한 사원들의 이름과 입사일을 출력하세요.
+
+[Answer]
+# 문자로 비교하고싶다.
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+    if emp_list[5][:4]=='2002':
+        print(emp_list[2],emp_list[5])
+file.close()
+
+
+또는
+
+# 날짜로 비교하고싶다.
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+    if time.strptime(emp_list[5],'%Y%m%d').tm_year==time.strptime('2002','%Y').tm_year:
+        print(emp_list[2],emp_list[5])
+file.close()
+
+
+
+
+
+[108] 
+job이 ST_CLERK 이고 월급 3000 이상인 사원들의 이름과 job, 급여 출력하세요
+
+[Answer]
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+    if (emp_list[6]=='ST_CLERK') and (float(emp_list[7])>=3000):
+        print(emp_list[2],emp_list[6],emp_list[7])
+file.close()
+
+
+
+
+
+[109] 
+급여가 2500 에서 3000 사이인 사원들의 이름과 급여를 출력하세요
+
+[Answer]
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+    if 2500 <= float(emp_list[7]) and 3000 >= float(emp_list[7]):
+        print(emp_list[2],emp_list[7])
+file.close()
+
+
+
+
+
+[110] 
+job AD_VP , AD_PRES 인 사원들의 이름과 월급과 직업을 출력하세요 + 총 건수도 추가하기
+
+[Answer]
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+cn=0
+for emp_list in emp_csv:
+    if emp_list[6] in ['AD_VP','AD_PRES']:
+        print(emp_list[2],emp_list[6],emp_list[7])
+        cn+=1
+print('총건수 %d'%cn)
+file.close()
+
+# 출력값:
+King AD_PRES 29040
+Kochhar AD_VP 17000
+De Haan AD_VP 17000
+총건수 3
+
+
+
+
+
+[111] 
+직업이 AD_VP , AD_PRES 이 아닌 사원들의 이름과 월급과 직업을 출력하세요 + 총 건수도 추가하기
+
+[Answer]
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+cn=0
+for emp_list in emp_csv:
+    if emp_list[6] not in ['AD_VP','AD_PRES']:
+        print(emp_list[2],emp_list[6],emp_list[7])
+        cn+=1
+print('총건수 %d'%cn)
+file.close()
+
+
+
+
+
+[112] 
+커미션이 null 인 사원의 이름, 급여, 커미션을 출력하세요.
+전체 인원수, 커미션 null의 수, 비율도 출력하세요.
+
+[Answer]
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+cn_all=0 # 전체인원수
+cn_null=0 # 커미션 null의 수
+
+for emp_list in emp_csv:
+    cn_all=cn_all+1
+    if emp_list[8]=='':
+        print(emp_list[2],emp_list[7],emp_list[8])
+        cn_null=cn_null+1
+print('전체인원수: ',cn_all)
+print('커미션 null의 수: ',cn_null)
+print('비율: ',round(cn_null/cn_all,2))
+
+file.close()
+
+# 출력값:
+Everett 3900 
+McCain 3200 
+Jones 2800 
+Walsh 3100 
+Feeney 3000 
+전체인원수:  107
+커미션 null의 수:  72
+비율:  0.67
+
+
+
+
+
+[113]
+커미션이 null 이 아닌 사원들의 이름,급여,커미션을 출력하세요.
+전체 인원수, 커미션이 null이 아닌 수, 비율도 출력하세요.
+
+[Answer]
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+cn_all=0 # 전체인원수
+cn=0
+
+for emp_list in emp_csv:
+    cn_all=cn_all+1
+    if emp_list[8]!='':
+        print(emp_list[2],emp_list[7],emp_list[8])
+        cn=cn+1
+print('전체인원수: ',cn_all)
+print('커미션이 null이 아닌 수: ',cn)
+print('비율: ',round(cn/cn_all,2))
+
+file.close()
+
+
+
+
+
+[114]
+last_name의 첫번째 철자가 S 로 시작하는 사원들의 이름과 급여를 출력하세요.
+전체 인원수, last_name의 첫글자가 S인 사원의 수, 비율도 출력하세요.
+
+[Answer]
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+cn_all=0 # 전체인원수
+cn=0
+
+for emp_list in emp_csv:
+    cn_all=cn_all+1
+    if emp_list[2][0]=='S':
+        print(emp_list[2],emp_list[7])
+        cn=cn+1
+print('전체인원수: ',cn_all)
+print('last_name의 첫글자가 S인 사원의 수: ',cn)
+print('비율: ',round(cn/cn_all,2))
+
+file.close()
+
+# 출력값:
+Smith 7400
+Sullivan 2500
+Sarchand 4200
+전체인원수:  107
+last_name의 첫글자가 S인 사원의 수:  9
+비율:  0.08
+
+
+
+
+
+[115] 
+last_name의 두번째 철자가 i 인 사원들의 이름과 월급을 출력하세요. 
+전체 인원수, last_name의 두번째 철자가 i인 수, 비율도 출력하세요.
+
+[Answer]
+import csv
+
+file=open('c:/data/emp.csv','r')
+emp_csv=csv.reader(file)
+next(emp_csv)
+
+cn_all=0 # 전체인원수
+cn=0
+
+for emp_list in emp_csv:
+    cn_all=cn_all+1
+    if emp_list[2][1]=='i':
+        print(emp_list[2],emp_list[7])
+        cn=cn+1
+print('전체인원수: ',cn_all)
+print('last_name의 두번째 철자가 i인 수: ',cn)
+print('비율: ',round(cn/cn_all,2))
+
+file.close()
+
+# 출력값:
+King 10000
+Vishney 10500
+Livingston 8400
+Dilly 3600
+전체인원수:  107
+last_name의 두번째 철자가 i인 수:  10
+비율:  0.09

@@ -1,0 +1,105 @@
+[134]
+직업이 ST_CLERK인 사원의 LAST_NAME,SALARY,JOB_ID를 출력해주세요.
+
+[Answer]
+emp[['LAST_NAME','SALARY','JOB_ID']][emp['JOB_ID']=='ST_CLERK']
+
+emp.ix[emp['JOB_ID']=='ST_CLERK',['LAST_NAME','SALARY','JOB_ID']]
+
+
+
+
+
+
+[134]
+emp.csv 파일의 데이터를 판다스를 이용해서 읽어 들인 후 급여가 10000 이상인 사원들의 이름, 급여, 입사일을 출력해주세요.
+
+[Answer]
+import pandas as pd
+
+emp = pd.read_csv('c:/data/emp.csv')
+
+emp[['LAST_NAME','SALARY','HIRE_DATE']][emp['SALARY']>=10000]
+
+또는
+
+import pandas as pd
+
+emp = pd.read_csv('c:/data/emp.csv')
+
+emp.head()
+emp.tail(10)
+
+# .ix는 곧 사라질 메소드 -> iloc나 loc 사용하는게 나음
+
+emp.ix[emp['SALARY']>=10000,['LAST_NAME','SALARY','HIRE_DATE']]
+
+또는
+
+emp.loc[emp['SALARY']>=10000,['LAST_NAME','SALARY','HIRE_DATE']]
+
+
+
+
+
+
+[137]
+직업이 AD_VP, AD_PRES 인 사원들의 이름, 급여, 직업을 출력하세요.
+
+[Answer]
+emp[['LAST_NAME','SALARY','JOB_ID']][emp['JOB_ID'].isin(['AD_VP','AD_PRES'])]
+
+또는
+
+emp[emp['JOB_ID'].isin(['AD_VP','AD_PRES'])][['LAST_NAME','SALARY','JOB_ID']]
+
+# 위의 답이랑 아래 답은 emp 1 2 냐 emp 2 1 이냐 => 순서의 차이
+
+
+
+
+
+
+[138]
+직업이 AD_VP ,AD_PRES 아닌 사원들의 이름, 급여, 직업을 출력하세요.
+
+[Answer]
+emp[['LAST_NAME','SALARY','JOB_ID']][~emp['JOB_ID'].isin(['AD_VP','AD_PRES'])]
+
+또는
+
+emp[~emp['JOB_ID'].isin(['AD_VP','AD_PRES'])][['LAST_NAME','SALARY','JOB_ID']]
+
+
+
+
+
+
+[139]
+커미션이 null인 사원의 이름, 커미션을 출력하세요.
+
+[Answer]
+emp[['LAST_NAME','COMMISSION_PCT']][emp['COMMISSION_PCT'].isnull()]
+
+emp[emp['COMMISSION_PCT'].isnull()][['LAST_NAME','COMMISSION_PCT']]
+
+emp.ix[emp['COMMISSION_PCT'].isnull(),['LAST_NAME','COMMISSION_PCT']]
+
+emp.loc[emp['COMMISSION_PCT'].isnull(),['LAST_NAME','COMMISSION_PCT']]
+
+
+
+
+
+
+[140]
+커미션이 null이 아닌 사원의 이름, 커미션을 출력하세요.
+
+[Answer]
+emp[['LAST_NAME','COMMISSION_PCT']][emp['COMMISSION_PCT'].notnull()]
+
+emp[emp['COMMISSION_PCT'].notnull()][['LAST_NAME','COMMISSION_PCT']]
+
+emp.ix[emp['COMMISSION_PCT'].notnull(),['LAST_NAME','COMMISSION_PCT']]
+
+emp.loc[emp['COMMISSION_PCT'].notnull(),['LAST_NAME','COMMISSION_PCT']]

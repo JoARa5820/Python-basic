@@ -1,0 +1,61 @@
+[87]
+오늘이 무슨 요일인지 출력해주세요.
+
+[Answer]
+if n.weekday()==0:
+	print('월요일')
+
+elif n.weekday()==1:
+	print('화요일')
+
+elif n.weekday()==2:
+	print('수요일')
+
+elif n.weekday()==3:
+	print('목요일')
+
+elif n.weekday()==4:
+	print('금요일')
+
+elif n.weekday()==5:
+	print('토요일')
+
+else:
+	print('일요일')
+
+
+또는
+
+days=['월요일','화요일','수요일','목요일','금요일','토요일','일요일']
+days[datetime.datetime.now().weekday()]
+
+
+
+
+
+
+
+
+[88]
+함수에 인수값으로 현재날짜, 일수 정보를 입력 받아서 더한 날짜정보를 리턴하는 next_day 함수를 생성하세요.
+
+[Answer]
+import datetime
+
+def next_day(x):
+	datetime.date.today()+datetime.timedelta(days=x)
+	return datetime.date.today()+datetime.timedelta(days=x)
+
+
+next_day(72)		# datetime.date(2018, 11, 22)
+
+
+또는
+
+import datetime
+
+def next_day(arg1,arg2):
+	return (arg1+datetime.timedelta(days=arg2))
+
+
+print(next_day(datetime.date.today(), 72))	# 2018-11-22

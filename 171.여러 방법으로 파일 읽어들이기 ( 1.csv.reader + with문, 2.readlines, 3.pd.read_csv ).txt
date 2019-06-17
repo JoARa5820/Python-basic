@@ -1,0 +1,68 @@
+[171]
+2016년도에 태어난 아이들의 정보가 들어 있는 year2016파일을 분석해야 합니다. 총 출생수를 출력해주세요.
+
+[Answer]
+import  pandas  as  pd
+
+yob2016 = pd.read_csv("c:\data\yob2016.csv", names = ['name','sex','count'])
+yob2016.head(10)
+
+yob2016['count'].sum()
+
+=> 3637321
+
+
+또는
+
+import csv
+import os
+
+
+# 경우1: csv.reader(f)
+count=0
+file = 'c:\data\yob2016.txt'
+name = os.path.basename('c:\data\yob2016.txt')
+
+# os.path.basename: 물리적인 절대경로(c:\data)는 빼고 파일 이름(yob2016)만 뽑아냄
+# name에 yob2016(:파일이름)만 들어감
+
+name = name.split('.')[0]
+
+# with문 쓰면 file close 할 필요없음
+with open(file,'r') as f:
+    data=csv.reader(f)
+    for d in data:
+        count += int(d[2]) # d[2]: 2번 인덱스,csv파일로 뽑아냈기 때문에 인덱스 사용가능
+
+print(name,count) # 파일이름,총 출생수 출력
+
+
+
+# 경우2: f.readlines() # readlines()로 읽어들이면 어쩔수없이 콤마를 기준으로 split해야함
+import csv
+import os
+
+count=0
+file = 'c:\data\yob2016.txt'
+name = os.path.basename('c:\data\yob2016.txt')
+name = name.split('.')[0]
+with open(file,'r') as f:
+    data=f.readlines()		# readlines는 그냥 한줄씩 읽어들여버림
+    for d in data:
+        birth = d.split(',')[2] # d를 콤마를 기준으로 split하면 0,1,2 인덱스로 분리됨
+        count += int(birth)
+print(name,count)
+
+
+
+# 경우3: pd.read_csv
+import pandas as pd 
+import os
+
+file = 'c:/data/yob2016.txt'
+name = os.path.basename(file)
+name = name.split('.')[0]
+
+yob = pd.read_csv('c:\data\yob2016.txt', names=['name','gender','birth'])
+
+print(name,yob['birth'].sum())

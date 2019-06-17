@@ -1,0 +1,35 @@
+[168]
+emp.csv는 pandas로 읽고 dept.csv는 일반 csv로 읽어 들인 후 조인을 수행하세요.
+
+[Answer]
+from pandas import Series, DataFrame
+import pandas as pd
+import csv
+
+emp = pd.read_csv("c:\data\emp_new.csv", names = ['empid','name','job','mgr','hire_date','sal','comm','deptno'])
+
+deptfile = open("c:\data\dept_new.csv",'r')
+dept_csv = csv.reader(deptfile)
+
+dept = {}
+# dept가 딕셔너리 형태이기 때문에 키[0]:밸류[1] 모양임
+
+#-----------------------------------------------------------------------------#
+dept_new:
+    dept_id             dept_name  mgr_id  location_id
+0        10        Administration   200.0         1700
+#-----------------------------------------------------------------------------#
+
+# 여기서 i는 리스트변수 : i는 ['270', 'Payroll', '', '1700']
+for i in dept_csv:
+    if i[0] != dept:		# i[0]:dept_id값(:270)이 dept딕셔너리에 없으면:
+        dept[int(i[0])] = i[1]	# dept딕셔너리[키:dept_id:270] = 밸류(:dept_name:Payroll) 추가
+
+# 딕셔너리에 dic['배구']='100'하면 dic 딕셔너리에 키와 밸류 추가됨
+
+
+for k,v in dept.items():
+    print(k,v)
+
+emp['dname']=emp['deptno'].map(dept)
+print(emp[['empid', 'deptno','dname']])

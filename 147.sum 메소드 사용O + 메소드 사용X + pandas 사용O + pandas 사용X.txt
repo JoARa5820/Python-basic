@@ -1,0 +1,52 @@
+[147]
+20번 부서 사원들의 급여 합을 구하세요.
+
+[Answer]
+emp['SALARY'][emp['DEPARTMENT_ID']==20]
+# Out[117]: 
+3    13000
+4     6000
+Name: SALARY, dtype: int64
+
+emp['SALARY'][emp['DEPARTMENT_ID']==20].sum()
+Out[118]: 19000
+
+
+
+또는		# 파일에 컬럼이름이 없을 때 컬럼이름 지정하는 방법
+
+import  pandas  as  pd
+emp = pd.read_csv("c:\data\emp_new.csv", names = ['empid','name','job','mgr','hire_date','sal','comm','deptno'])
+print(emp['sal'][emp['deptno'] == 20].sum())
+
+
+import  csv
+
+file = open("c:\data\emp_new.csv",'r')
+emp_csv = csv.reader(file)
+sal = 0
+for emp_list in emp_csv:
+    if emp_list[10] == '20':
+        sal += float(emp_list[7])
+print(sal)
+
+
+
+
+
+
+[153]
+10,20,30,40,50번 부서 사원들의 급여의 총액을 출력하세요.
+
+<화면출력>
+
+10 4400.0
+20 19000.0
+30 24900.0
+40 6500.0
+50 156400.0
+
+
+[Answer]
+for i in [10,20,30,40,50]:
+	print(i,emp.loc[emp['DEPARTMENT_ID']==i,'SALARY'].sum())

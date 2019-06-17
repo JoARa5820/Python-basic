@@ -1,0 +1,220 @@
+[123]
+아래와 같은 모양의 표를 생성하세요. 
+
+      PYTHON   R  SQL
+2014      60  90   50
+2015      80  65   75
+2016      70  75   85
+
+
+[Answer]
+# 딕셔너리형 생각하면 됨 (키:밸류, 인덱스는 따로 설정해주기)
+# array형으로 만들어도 됨
+
+df = DataFrame({'PYTHON':[60,80,70],'R':[90,65,75],'SQL':[50,75,85]},index=['2014','2015','2016'])
+
+df
+      PYTHON   R  SQL
+2014      60  90   50
+2015      80  65   75
+2016      70  75   85
+
+
+
+
+
+[124]
+'PYTHON' 열을 선택하세요
+
+[Answer]
+df['PYTHON']
+Out[120]: 
+2014    60
+2015    80
+2016    70
+Name: PYTHON, dtype: int64
+
+
+
+
+
+[125]
+'2014' 행 정보를 출력하세요.
+
+[Answer]
+df.ix['2014']
+
+df.ix[0]
+__main__:1: DeprecationWarning: 
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/indexing.html#ix-indexer-is-deprecated
+Out[126]: 
+PYTHON    60
+R         90
+SQL       50
+Name: 2014, dtype: int64
+
+
+
+
+
+[126]
+인덱스번호를 기준으로 1부터 2번까지 출력하세요.
+
+[Answer]
+df[1:3]
+df.ix[1:3]
+df.iloc[1:3]
+
+
+df[1:3]
+Out[127]: 
+      PYTHON   R  SQL
+2015      80  65   75
+2016      70  75   85
+
+
+
+
+
+[127]
+PYTHON의 값을 기준으로 60보다 큰값을 가지고 있는 행 정보를 출력하세요.
+
+[Answer]
+df['PYTHON']>60
+2014    False
+2015     True
+2016     True
+Name: PYTHON, dtype: bool
+
+
+df[df['PYTHON']>60]
+      PYTHON   R  SQL
+2015      80  65   75
+2016      70  75   85
+
+
+df.ix[df['PYTHON']>60]
+__main__:1: DeprecationWarning: 
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/indexing.html#ix-indexer-is-deprecated
+Out[139]: 
+      PYTHON   R  SQL
+2015      80  65   75
+2016      70  75   85
+
+
+
+
+
+[128]
+PYTHON의 값을 기준으로 60 보다 큰값을 가지고 있는 PYTHON 정보만 출력하세요.
+
+[Answer]
+df.ix[df['PYTHON']>60,'PYTHON']		# df.ix[추출해야할 행 정보,보고싶은 열]
+
+또는
+
+df.ix[df['PYTHON']>60,0]		# df.ix[추출해야할 행 정보,보고싶은 열]
+
+또는
+
+df.loc[df['PYTHON']>60,'PYTHON']	# df.ix[추출해야할 행 정보,보고싶은 열]
+
+또는
+
+df['PYTHON'][df['PYTHON']>60]		# 열 추출 후 행 제한
+
+Out[163]: 
+2015    80
+2016    70
+Name: PYTHON, dtype: int64
+
+
+
+
+
+[129]
+'2015' 행값 중에 PYTHON 정보만 출력하세요
+
+[Answer]
+df.ix['2015','PYTHON']
+__main__:1: DeprecationWarning: 
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/indexing.html#ix-indexer-is-deprecated
+Out[167]: 80
+
+
+# 2015년의 PYTHON의 값을 수정하는 법
+df.ix['2015','PYTHON'] = 90
+
+
+
+
+
+[130]
+'2015' 행값 중에 PYTHON, R 정보 출력하세요 
+
+[Answer]
+df.ix['2015',['PYTHON','R']]
+__main__:1: DeprecationWarning: 
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/indexing.html#ix-indexer-is-deprecated
+Out[171]: 
+PYTHON    80
+R         65
+Name: 2015, dtype: int64
+
+
+
+
+
+[131]
+'R' 열 정보를 출력하세요.
+
+[Answer]
+df['R']
+2014    90
+2015    65
+2016    75
+Name: R, dtype: int64
+
+또는
+
+df.ix[:,'R']
+__main__:1: DeprecationWarning: 
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/indexing.html#ix-indexer-is-deprecated
+Out[169]: 
+2014    90
+2015    65
+2016    75
+Name: R, dtype: int64
+
+또는
+
+df.loc[:,'R']
+2014    90
+2015    65
+2016    75
+Name: R, dtype: int64

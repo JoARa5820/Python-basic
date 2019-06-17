@@ -1,0 +1,24 @@
+## round는 기본 내장되있는 함수
+## import math : math.trunc(cn1*100/cn2)
+
+[100]
+이름, salary * 12 + commission_pct 결과를 출력해주세요.
+
+
+[Answer]
+import csv
+import math		# math.trunc를 사용하기 위해서는 먼저 시행해줘야함
+
+def ifnull(var1,var2):
+	if var1 == '':
+		return var2
+	return var1
+
+
+
+file = open('c:/data/emp.csv','r')
+emp_csv = csv.reader(file)
+next(emp_csv)
+for emp_list in emp_csv:
+	print(emp_list[2],math.trunc(int(emp_list[7])*12+float(ifnull(emp_list[8],0))))
+file.close()

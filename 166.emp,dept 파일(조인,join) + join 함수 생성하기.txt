@@ -1,0 +1,102 @@
+[166]
+emp_new.csv, dept_new.csv 파일 데이터를 이용해서  조인된 결과를 보려고 합니다.
+조인 함수를 생성하세요.
+ 
+join(emp,'deptno','ename', dept,'deptno','dname')
+join(emp,'ename','mgr', emp,'ename','empno')
+
+
+[Answer]
+<1>
+import csv
+
+empfile = open("c:\data\emp_new.csv",'r')
+deptfile = open("c:\data\dept_new.csv",'r')
+
+emp_csv = csv.reader(empfile)
+dept_csv = csv.reader(deptfile)
+
+emp = []  
+dept =[]
+
+for i in  dept_csv:
+	dept.append({'deptno':i[0],'dname':i[1],'mgr':i[2],'loc':i[3]})
+
+for j in emp_csv:
+	emp.append({'empno':j[0],'ename':j[1],'job':j[2],'mgr':j[3], 'hiredate':j[4],'sal':j[5],'comm':j[6],'deptno':j[7]})
+
+
+def join(outer_table,outer_column1,outer_column2,inner_table,inner_column1,inner_column2):
+	for o in outer_table:
+		for i in inner_table:
+			if o[outer_column1] == i[inner_column1]:
+				print (o[outer_column2], i[inner_column2])
+
+# empfile.close()
+# deptfile.close()
+
+join(emp,'deptno','ename', dept,'deptno','dname')
+join(emp,'ename','mgr', emp,'ename','empno')
+
+
+
+<2>
+import pandas as pd
+from pandas import Series,DataFrame
+
+emp_new = pd.read_csv('c:/data/emp_new.csv',names = ['empid','name','job','mgr','hire_date','sal','comm','deptno'])
+dept_new = pd.read_csv('c:/data/dept_new.csv',names = ['dept_id','dept_name','mgr_id','location_id'])
+
+emp_new
+dept_new
+
+def join(outer_table,outer_column1,outer_column2,inner_table,inner_column1,inner_column2):
+    print(pd.merge(outer_table[[outer_column1,outer_column2]],inner_table[[inner_column1,inner_column2]],left_on=outer_column1,right_on=inner_column1))
+
+join(emp,'deptno','ename', dept,'deptno','dname')
+join(emp,'ename','mgr', emp,'ename','empno')
+
+#-----------------------------------------------------------------------------#
+
+또는
+
+<1>
+import  csv
+empfile = open("c:\data\emp_new.csv",'r')
+deptfile = open("c:\data\dept_new.csv",'r')
+emp_csv = csv.reader(empfile)
+dept_csv = csv.reader(deptfile)
+
+emp = []  
+dept =[]
+
+for i in  dept_csv:
+    dept.append({'deptno':i[0],'dname':i[1],'mgr':i[2],'loc':i[3]})
+
+for j in emp_csv:
+    emp.append({'empno':j[0],'ename':j[1],'job':j[2],'mgr':j[3], 'hiredate':j[4],'sal':j[5],'comm':j[6],'deptno':j[7]})
+
+def join(outer_table,outer_column1,outer_column2,inner_table,inner_column1,inner_column2):
+   for  o  in  outer_table:
+      for  i  in  inner_table:
+         if o[outer_column1] == i[inner_column1]:
+             print (o[outer_column2], i[inner_column2]) 
+           
+ 
+join(emp,'deptno','ename', dept,'deptno','dname')
+
+join(emp,'mgr','ename', emp,'empno','ename')
+
+
+
+<2>
+import  pandas  as  pd
+
+emp = pd.read_csv("c:\data\emp_new.csv", names = ['empid','ename','job','mgr','hire_date','sal','comm','deptno'])
+dept = pd.read_csv("c:\data\dept_new.csv",names = ['deptno','dname','mgr','loc'])
+
+def join(outer_table,outer_column1,outer_column2,inner_table,inner_column1,inner_column2):
+    print(pd.merge(outer_table[[outer_column1,outer_column2]],inner_table[[inner_column1,inner_column2]],left_on=outer_column1,right_on=inner_column1))
+
+join(emp,'deptno','ename', dept,'deptno','dname')
+join(emp,'ename','mgr', emp,'ename','empno')

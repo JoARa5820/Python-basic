@@ -1,0 +1,66 @@
+[120]
+단어, 알파벳을 입력값으로 넣어서 단어 안에 알파벳 수를 출력하세요
+
+<화면예>
+
+wordF('happy','p')
+2
+
+
+
+[Answer]
+
+def wordF(x,y):
+	num=0
+	for i in range(len(x)):
+		if x[i]==y:
+			num=num+1
+	return num
+
+
+wordF('happy','p')
+wordF('apple','a')
+wordF('orange','f')
+
+
+또는
+
+def wordF(x,y):
+	num=0
+	for i in x:
+		if i==y:
+			num=num+1
+	print(num)
+
+
+
+
+
+[122]
+단어 철자의 빈도수를 출력하세요.
+
+alphaF('intelligence')
+{'i': 2, 'n': 2, 't': 1, 'e': 3, 'l': 2, 'g': 1, 'c': 1}
+
+alphaF('happy')
+{'h': 1, 'a': 1, 'p': 2, 'y': 1}
+
+
+[Answer]
+
+def wordF(x):
+
+	val={}
+
+	for i in x:
+		if i in val:
+			val[i]+=1		## val[p](=1) +1 이렇게 됨(아래에서 올라옴)
+		else:
+			val[i]=1		## val[h]=1, val[p]=1 하고 위로 올라갔을때
+
+	print(val)
+
+
+wordF('happy')
+wordF('apple')
+wordF('orange')

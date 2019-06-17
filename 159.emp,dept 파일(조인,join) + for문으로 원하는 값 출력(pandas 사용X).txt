@@ -1,0 +1,101 @@
+[159]
+emp_new.csv, dept_new.csv 파일을 읽어서 사원의 이름, 부서 이름을 출력하세요.
+
+#-----------------------------------------------------------------------------#
+from pandas import Series, DataFrame
+import pandas as pd
+import numpy as np
+
+emp = pd.read_csv("c:\data\emp_new.csv", names = ['empid','name','job','mgr','hire_date','sal','comm','deptno'])
+
+dept = pd.read_csv("c:\data\dept_new.csv", names = ['dept_id','dept_name','mgr_id','location_id'])
+#-----------------------------------------------------------------------------#
+
+[Answer]
+
+import  csv
+empfile = open("c:\data\emp_new.csv",'r')
+deptfile = open("c:\data\dept_new.csv",'r')
+emp_csv = csv.reader(empfile)
+dept_csv = csv.reader(deptfile)
+
+emp =[]  
+dept =[]
+
+for i in dept_csv:
+    dept.append({'deptno':i[0],'dname':i[1],'mgr':i[2],'loc':i[3]})
+
+for j in emp_csv:
+    emp.append({'empno':j[0],'ename':j[1],'job':j[2],'mgr':j[3], 'hiredate':j[4],'sal':j[5],'comm':j[6],'deptno':j[7]})
+
+
+for d in dept:
+   for e in emp:
+        if e['deptno'] == d['deptno']:
+            print ( e['ename'], d['dname'])
+
+
+empfile.close()
+deptfile.close()
+
+=> 사원 중 부서코드가 없는 직원은 안나옴 : 총 106개
+
+
+
+
+
+
+
+[160]
+사원들의 이름, 부서 이름을 출력하면서 소속부서가 없는 사원도 출력해주세요. 마지막에는 총건수도 출력하세요. 
+
+[Answer]
+import  csv
+empfile = open("c:\data\emp_new.csv",'r')
+deptfile = open("c:\data\dept_new.csv",'r')
+emp_csv = csv.reader(empfile)
+dept_csv = csv.reader(deptfile)
+
+emp = []  
+dept =[]
+
+for i in  dept_csv:
+    dept.append({'deptno':i[0],'dname':i[1],'mgr':i[2],'loc':i[3]})
+
+for j in emp_csv:
+    emp.append({'empno':j[0],'ename':j[1],'job':j[2],'mgr':j[3], 'hiredate':j[4],'sal':j[5],'comm':j[6],'deptno':j[7]})
+
+cn = 0
+
+for e in emp:
+    if e['deptno'] == '':
+        print(e['ename'])
+        cn += 1
+    else:
+        for d in dept:
+            if e['deptno'] == d['deptno']:
+               print ( e['ename'], d['dname'])
+               cn += 1
+
+print(cn)
+
+empfile.close()
+deptfile.close()
+
+=> 107개
+
+
+# 셀렉절로 쓰면..
+# 부서가 없는 사원도 출력하려면 left outer join으로 왼쪽에 emp 테이블을 둬야함
+
+select e.ename, d.dname
+from emp e, dept d
+where e.deptno = d.deptno;
+
+select e.ename, d.dname
+from emp e, dept d
+where e.deptno = d.deptno(+);
+
+select e.ename, d.dname
+from emp e left outer join dept d
+where e.deptno = d.deptno;

@@ -1,0 +1,88 @@
+[180]
+2010 ~ 2016  년도까지 성별 출생 현황을 그래프를 그리세요.
+
+
+[Answer]
+import csv
+from pandas import Series,DataFrame
+import numpy as np
+import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from matplotlib import font_manager, rc
+font_name = font_manager.FontProperties(fname="c:/Windows/Fonts/malgun.ttf").get_name()
+rc('font', family=font_name)
+%matplotlib inline
+
+
+with open('c:/python_data/year_gender_total.csv','w',encoding="utf-8") as f:
+    writer = csv.writer(f, delimiter=',')
+    writer.writerow(['년도','여자','남자'])
+    for y in range(2000,2017):
+        filename='c:\python_data\yob%d.txt'%y
+        name = os.path.basename(filename)
+        name = name.split('.')[0]
+        df = pd.read_csv(filename, names=['name','gender','birth'])
+        gender_cn = df['birth'].groupby(df['gender']).sum()
+        writer.writerow([name[3:],gender_cn.loc['F'],gender_cn.loc['M']])
+      
+
+
+df = pd.read_csv('c:/python_data/year_gender_total.csv')
+df
+      년도       여자       남자
+0   2000  1814922  1962744
+1   2001  1799416  1941595
+2   2002  1795556  1940095
+3   2003  1825722  1973825
+4   2004  1834632  1983271
+5   2005  1845978  1995462
+6   2006  1899166  2053065
+7   2007  1920231  2072975
+8   2008  1888177  2037309
+9   2009  1834048  1980491
+10  2010  1774186  1915331
+11  2011  1755278  1895156
+12  2012  1756347  1892094
+13  2013  1749061  1885683
+14  2014  1779496  1913434
+15  2015  1776538  1907211
+16  2016  1756647  1880674
+
+
+df = df.set_index("년도")	# .set_index('컬럼'): '컬럼'을 인덱스로 바꾸는 메소드
+				# 여기서는 '년도'를 인덱스로 바꿈
+df
+           여자       남자
+년도                    
+2000  1814922  1962744
+2001  1799416  1941595
+2002  1795556  1940095
+2003  1825722  1973825
+2004  1834632  1983271
+2005  1845978  1995462
+2006  1899166  2053065
+2007  1920231  2072975
+2008  1888177  2037309
+2009  1834048  1980491
+2010  1774186  1915331
+2011  1755278  1895156
+2012  1756347  1892094
+2013  1749061  1885683
+2014  1779496  1913434
+2015  1776538  1907211
+2016  1756647  1880674
+
+
+df.plot()		# df['여자'].plot(): 이렇게 하면 여자그래프만 그려줌
+df.plot(kind="bar")	# df['여자'].plot(kind="bar"): 이렇게 하면 여자그래프만 그려줌
+df.plot(kind="barh")	# df['여자'].plot(kind="barh"): 이렇게 하면 여자그래프만 그려줌
+
+
+plt.plot(df.ix[:,0], label="여자", color="r", linestyle="--")
+plt.plot(df.ix[:,1], label="남자", color="b", linestyle=":")
+plt.title("성별 출생 현황", fontsize=15)
+plt.xlabel("년도",fontsize=10)
+plt.ylabel("출생수",fontsize=10)
+plt.legend()
+plt.grid()

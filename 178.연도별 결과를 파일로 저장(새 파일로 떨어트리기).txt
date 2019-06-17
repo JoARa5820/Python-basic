@@ -1,0 +1,80 @@
+[178]
+2000 ~ 2016년 연도별 출생수 결과를 year.txt 파일에 저장하세요.
+
+
+[Answer]
+# mypy파일에 year.txt 만들어짐
+
+import os
+import glob
+from pandas import Series, DataFrame
+import pandas as pd
+import numpy as np
+
+year_cn=[]
+
+for f in glob.glob("c:\mypy\yobtxt\yob*.txt"):
+    name = os.path.basename(f)
+    name = name.split('.')[0]
+    df = pd.read_csv(f, names=['name','gender','birth'])
+     
+    year_cn.append((name[3:],df['birth'].sum()))
+    print(name[3:],df['birth'].sum())
+
+with open('c:\mypy\yobtxt\year.txt','w') as f:
+    for year, birth in year_cn:
+        data = '%s,%s\n'%(year,birth)
+        print(data)
+        f.write(data)
+
+
+- 이어서 돌려주기
+
+
+# mypy파일에 year_total.csv 만들어짐
+
+import os
+from pandas import Series, DataFrame
+import pandas as pd
+import numpy as np
+import csv
+
+with open('c:/mypy/yobtxt/year_total.csv','w') as f:
+    writer = csv.writer(f, delimiter=',')
+    for y in range(2000,2017):
+        filename='c:/mypy/yobtxt/yob%d.txt'%y
+        name = os.path.basename(filename)
+        name = name.split('.')[0]
+        df = pd.read_csv(filename, names=['name','gender','birth'])
+        writer.writerow([name[3:],df['birth'].sum()])
+
+
+
+
+
+
+[179]
+2000 ~ 2016년도까지 성별 출생 현황을 year_gender_total.csv 파일로 생성해주세요.
+year_gender_total.csv 파일로 생성해주세요.
+
+
+[Answer]
+# mypy폴더 안 yobtxt폴더에  year_gender_total.csv로 파일이 생성됨
+
+
+with open('c:/mypy/yobtxt/year_gender_total.csv','w') as f:
+    writer = csv.writer(f, delimiter=',')	# delimiter=',':필드사이를 ,로 구분하겠다.
+    writer.writerow(['년도','여자','남자'])	# 파일의 헤더를 저장(컬럼표현)
+    for y in range(2000,2017):
+        filename='c:\mypy\yobtxt\yob%d.txt'%y
+        name = os.path.basename(filename)
+        name = name.split('.')[0]
+        df = pd.read_csv(filename, names=['name','gender','birth'])
+        gender_cn = df['birth'].groupby(df['gender']).sum()
+        f_cn = gender_cn.loc['F']
+        m_cn = gender_cn.loc['M']
+        writer.writerow([name[3:],f_cn, m_cn])	# writerow로 찍어줌
+
+
+# with open('c:/mypy/yobtxt/year_gender_total.csv','w',encoding='utf-8') as f:
+  영어외의 것(한글)으로 불러들일때 encoding='utf-8' 옵션 써주기 (write,read시)

@@ -1,0 +1,26 @@
+[33] 구구단을 생성하세요
+
+[Answer]
+
+j=2
+
+while 1 < j < 10:
+    i=1
+    print('-----------')
+    while i < 10:
+        print('{} * {} = {}'.format(j,i,j*i))
+        i += 1
+    j += 1
+
+또는
+
+v_num = 2
+while v_num <= 9:
+	count = 1
+	p_num = 0
+	print('-- %d단 --'%v_num)
+	while count <= 9:
+		p_num = v_num * count
+		print(v_num,'*',count,'=',p_num)
+		count = count + i
+	v_num = v_num + 1

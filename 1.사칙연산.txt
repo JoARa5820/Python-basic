@@ -1,0 +1,36 @@
+[1]
+x,y 변수에 있는 값을 기준으로 수행한 결과 입니다. 
+x 와 y 변수에 어떤 값이 있어야 하나요.
+또한 결과값이 나오기 위해서 어떤 계산식을 만들어야 하는지 계산식을 만들어 보세요.
+
+
+result_1 =  7
+result_2 =  3
+result_3 =  -3
+result_4 =  10
+result_5 =  0.4
+result_6 =  0
+result_7 =  2
+result_8 =  32
+result_9 =  7.0
+result_10 =  -21
+result_11 =  50
+result_12 =  29
+
+
+
+[Answer]
+x=2/y=5
+
+x+y
+y-x
+x-y
+x*y
+x/y
+(x*y)-((x**3)+x) = x//y (몫)
+(x*y)-(x**3) = x%y (나머지)
+x**y
+((x+y)*(x*y))/(x*y) = x+x*y/x
+(x+y)*(x-y)
+y*(x*y) = x*y**x
+(x*x)+(y*y) = (x**x)+(y**x) # x^x + y^x와 같음

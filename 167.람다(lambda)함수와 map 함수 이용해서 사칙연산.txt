@@ -1,0 +1,17 @@
+[167]
+x변수에는 1,2,3,4,5  y변수에는 6,7,8,9,10 들어 있다. f(x,y) = x2 + y 를 구하세요.(lambda, map 함수를 이용하세요)
+
+
+[Answer]
+
+x=[1,2,3,4,5]
+y=[6,7,8,9,10]
+
+f = lambda x,y : x*2 + y
+
+result = map(f,x,y) # f에 x하나,y하나 들어가서 수행 -> f에 x하나,y하나 들어가서 수행
+print(list(result))
+
+또는
+
+print(list(map(lambda x,y : x*2+y ,x ,y)))

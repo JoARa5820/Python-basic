@@ -1,0 +1,48 @@
+[40] 
+구구단을 출력하세요.(for 이용)
+
+[Answer]
+for i in range(2,10):
+	print('-----------')
+	for j in range(1,10):
+		print('{}*{}={}'.format(i,j,i*j))
+
+
+
+
+[41] 
+구구단을 만드세요. 
+2단에서 9단까지만 입력하세요, [0은 구구단 전부를 출력합니다.]: 
+
+[Answer]
+dan = int(input('2단에서 9단까지만 입력하세요.[0은 구구단 전부를 출력합니다.] : '))
+
+for i in range(1,10,1):
+	if dan != 0 :
+		print(dan,'*',i,'=',dan*i)
+	
+if dan == 0:
+	j=2
+	while 1<j<10:
+		i=1
+		print('-----------')
+		while i < 10:
+			print('{}*{}={}'.format(j,i,j*i))
+			i+=1
+		j+=1
+
+또는
+
+m = int(input('2단에서 9단까지만 입력하세요.[0은 구구단 전부를 출력합니다.] : '))
+
+if m == 0:
+	for i in range(1,10):
+		print('-----------')
+		for a in range(1,10):
+			print(i,'x',a,'=',i*a)
+elif 2 <= m <= 9:
+	print('-----------')
+	for i in range(1,10):
+		print(m,'x',i,'=',m*i)
+else:
+	print('2단에서 9단까지만 입력해주세요.')

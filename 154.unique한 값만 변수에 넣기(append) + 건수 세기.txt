@@ -1,0 +1,102 @@
+[154]
+s 변수에 값들 중에 unique한 값만 s_unique변수에 넣어주세요.
+
+s = [1,2,3,4,1,2,3,4,5,1,2,3,4,5,6,'']
+
+
+[Answer]
+s = [1,2,3,4,1,2,3,4,5,1,2,3,4,5,6,'']
+
+j=[]
+
+for i in s:
+    if not i in j:
+        j.append(i)
+print(j)
+[1, 2, 3, 4, 5, 6, '']
+
+
+v=[]
+
+for k in j:
+    if not k in s:
+        v.append(k)
+print(k)
+
+k
+
+
+# 건수 세기
+s = [1,2,3,4,1,2,3,4,5,1,2,3,4,5,6,'']
+set(s)
+
+
+# 빈도수 세기
+freq = {}
+
+for c in s:		# 여기서 c와 s는 위에서 내가 정한 값이 아님
+	if c in freq:
+		freq[c] += 1
+	else:
+		freq[c] = 1
+
+print(freq)
+
+
+# 널빼고 계산
+freq = {}
+
+for c in s:
+	if c in freq:
+		freq[c] += 1
+	else:
+		if c != '':
+			freq[c] = 1
+
+print(freq)
+
+
+또는
+
+s = [1,2,3,4,1,2,3,4,5,1,2,3,4,5,6,'']
+set(s)
+
+s_unique = []
+for s_list in s:
+    if not s_list in s_unique:
+        s_unique.append(s_list)
+print(s_unique)
+
+s_unique = []
+for s_list in s:
+    if (not s_list in s_unique) and (s_list != ''):
+        s_unique.append(s_list)
+print(s_unique)
+
+
+freq={}
+for c in s:
+    if c in freq:
+        freq[c] += 1
+    else:
+        freq[c] = 1
+
+print(freq)
+
+freq={}
+for c in s:
+    if c in freq:
+        freq[c] += 1
+    else:
+        if c != '':
+            freq[c] = 1
+
+print(freq)
+
+
+# 상대도수 구하기
+
+t = len(s) # 16개
+
+for k,v in freq.items():
+    print(k,v/t)
