@@ -1,0 +1,183 @@
+[193]
+양의 정수값만 입력 받아서 나누기를 수행하는 positive_divide 함수를 생성하세요.
+
+print(positive_divide())
+ 
+ 분자 숫자를 입력하세요 : 10
+ 분모 숫자를 입력하세요 : 2
+5.0
+
+print(positive_divide()) 
+ 
+ 분자 숫자를 입력하세요 : 10
+ 분모 숫자를 입력하세요 : -2
+오류  - 음수로 나눌수 없습니다. -2
+
+print(positive_divide())
+
+ 분자 숫자를 입력하세요 : 10
+ 분모 숫자를 입력하세요 : 0
+오류 -  0으로 나눌수 없습니다. division by zero
+
+
+[Answer]
+<경우1>
+# None이 나오는 경우 => print 사용시
+def positive_divide():
+    x = int(input('분자 숫자를 입력하세요: '))		# float형식도 ok
+    y = int(input('분모 숫자를 입력하세요: '))
+    
+    try:
+        if y == 0:
+            raise Exception('0으로 나눌 수 없습니다. division by zero')
+        elif y < 0 or x <0:
+            raise Exception('음수로 나눌 수 없습니다. {}'.format(y))
+        else:
+            print(x/y)
+    
+    except Exception as error:
+        print('오류 - {}'.format(error))
+
+
+print(positive_divide())
+분자 숫자를 입력하세요: 10
+분모 숫자를 입력하세요: 2
+5.0
+None
+
+
+print(positive_divide())
+분자 숫자를 입력하세요: 10
+분모 숫자를 입력하세요: -2
+오류 - 음수로 나눌 수 없습니다. -2
+None
+
+
+print(positive_divide())
+분자 숫자를 입력하세요: 10
+분모 숫자를 입력하세요: 0
+오류 - 0으로 나눌 수 없습니다. division by zero
+None
+
+
+
+<경우2>
+# None이 안나오는 경우 => print 대신 return 써줌
+def positive_divide():
+    x = int(input('분자 숫자를 입력하세요: '))
+    y = int(input('분모 숫자를 입력하세요: '))
+    
+    try:
+        if y == 0:
+            raise Exception('0으로 나눌 수 없습니다. division by zero')
+        elif y < 0 or x <0:
+            raise Exception('음수로 나눌 수 없습니다. {}'.format(y))
+        else:
+            return(x/y)
+    
+    except Exception as error:
+        return('오류 - {}'.format(error))
+
+
+print(positive_divide())
+분자 숫자를 입력하세요: 10
+분모 숫자를 입력하세요: 2
+5.0
+
+
+print(positive_divide())
+분자 숫자를 입력하세요: 10
+분모 숫자를 입력하세요: -2
+오류 - 음수로 나눌 수 없습니다. -2
+
+
+print(positive_divide())
+분자 숫자를 입력하세요: 10
+분모 숫자를 입력하세요: 0
+오류 - 0으로 나눌 수 없습니다. division by zero
+
+
+또는
+
+# [참조 : https://docs.python.org/ko/3/library/exceptions.html]
+
+positive_divide()
+ 
+분자 숫자를 입력하세요 : 10
+ 분모 숫자를 입력하세요 : 2
+5.0
+
+positive_divide()
+ 
+ 분자 숫자를 입력하세요 : 10
+ 분모 숫자를 입력하세요 : -2
+오류  - 음수로 나눌수 없습니다. -2
+
+positive_divide()
+
+ 분자 숫자를 입력하세요 : 10
+ 분모 숫자를 입력하세요 : 0
+오류 -  0으로 나눌수 없습니다. division by zero
+
+
+<경우1>
+def  positive_divide():
+    try:
+      
+        x = int(input(' 분자 숫자를 입력하세요 : '))
+        y = int(input(' 분모 숫자를 입력하세요 : '))
+        
+        if(y < 0):  
+            raise ValueError
+        return  x / y
+    except ValueError as error:
+        print('오류  - 음수로 나눌수 없습니다.', error)
+    except ZeroDivisionError as error:
+        print('오류 -  0으로 나눌수 없습니다.',error)
+
+
+positive_divide()
+
+
+<경우2>
+def  positive_divide():
+    try:
+      
+        x = int(input(' 분자 숫자를 입력하세요 : '))
+        y = int(input(' 분모 숫자를 입력하세요 : '))
+        
+        if(y < 0):  
+            raise ValueError
+        return  x / y
+    except ValueError:
+        print('오류  - 음수로 나눌수 없습니다.', y)
+    except ZeroDivisionError as error:
+        print('오류 -  0으로 나눌수 없습니다.',error)
+
+
+positive_divide()
+
+
+<경우3>
+# 사용자가 정의한 내상을 클래스로 정해놓음
+class NegativeDivisionError(Exception): # Exception을 처리하는 클래스
+    def __init__(self, value):
+        self.value = value
+        
+
+def  positive_divide():
+    try:
+        # n = NegativeDivisionError : 인스턴스화 해서 밑에서 써도 되지만 굳이..
+        
+        x = int(input(' 분자 숫자를 입력하세요 : '))
+        y = int(input(' 분모 숫자를 입력하세요 : '))
+        
+        if(y < 0):  
+            raise NegativeDivisionError(y) # 클래스를 수행하란 뜻
+        return  x / y
+    except NegativeDivisionError as error:
+        print('오류  - 음수로 나눌수 없습니다.', error)
+    except ZeroDivisionError as error:
+        print('오류 -  0으로 나눌수 없습니다.',error)
+
+positive_divide()

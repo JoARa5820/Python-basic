@@ -1,0 +1,151 @@
+[185]
+동아일보에서 인공지능 주제로 기사 스크롤링 해서 단어의 빈도수를 체크하고
+워드클라우드를 그리세요.
+
+
+[Answer]
+import urllib.request
+from bs4 import BeautifulSoup
+
+params = []
+for i in range(1,50,15):
+    list_url = "http://news.donga.com/search?p="+str(i)+"&query=%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1"
+
+    url = urllib.request.Request(list_url)
+    res = urllib.request.urlopen(url, timeout=100).read().decode("utf-8")
+    soup= BeautifulSoup(res, "html.parser")
+    for link in soup.findAll('p', class_='tit'):
+        params.append(link.find('a').get('href'))
+
+
+txt= []
+for i in params:
+    #print(i)
+    url = urllib.request.Request(i)
+    res = urllib.request.urlopen(url).read().decode("utf-8")
+    soup= BeautifulSoup(res, "html.parser")
+    result = soup.find_all('div',{'class':'article_txt'})
+    
+    
+    for i in result:
+        #print(i.text)
+       txt.append(i.text)
+
+
+new_text ='' # 문자형식으로 만듬
+for i in range(0,60): # 60개의 기사
+    new_text = new_text + txt[i][0:txt[i].find('Copyright')] + '\n'
+    
+
+import nltk
+from konlpy.tag import Kkma
+kkma = Kkma()
+
+tokens_ko = kkma.nouns(new_text)
+tokens_ko
+
+ko = nltk.Text(tokens_ko)
+len(ko.tokens)
+len(set(ko.tokens))
+ko.vocab()
+ko.vocab().most_common(50)
+
+
+# 파일로 떨어트리기
+with open("c:/data/new_text.txt","w",encoding="utf-8") as file:
+    for i in range(0,60):
+        file.write(txt[i][0:txt[i].find('Copyright')])
+
+
+# 리드라인,리드라인즈로 하면 리스트 형식으로 읽어들이기 때문에 file.read()를 사용해야함
+with open("c:/data/new_text.txt","r",encoding="utf-8") as file:
+    news = file.read()
+
+
+import nltk
+from konlpy.tag import Kkma
+kkma = Kkma()
+
+tokens_ko = kkma.nouns(news)
+ko = nltk.Text(tokens_ko)
+ko.vocab()
+
+
+또는
+
+from bs4 import BeautifulSoup
+import urllib.request as req
+
+lst=[]
+
+for i in range(1,137,15):
+    url="http://news.donga.com/search?p="+str(i)+"&query=%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1"
+    res = req.urlopen(url)
+    soup = BeautifulSoup(res, "html.parser")
+    for i in soup.select("div.searchList > div.t > p.tit"):
+        lst.append(i.select_one('a')['href'])
+
+cn = 0
+txt = []
+for i in lst:
+    res =req.urlopen(i).read().decode("utf-8")
+    soup= BeautifulSoup(res, "html.parser")
+    result = soup.select('div.article_txt')
+       
+    for i in result:
+       txt.append(i.text)
+       
+new_txt = []
+
+for i in range(0,150):
+    new_txt.append(txt[i][0:txt[i].find('@')])
+
+news=''
+
+for i in new_txt:
+    news=news+i
+
+tokens_ko=twitter.nouns(news)
+
+ko=nltk.Text(tokens_ko)
+
+ko=[i for i in ko if len(i)>=2]
+
+ko=nltk.Text(ko)
+
+data=ko.vocab().most_common(100)
+
+stopword=['.',',','(',')','간엔','대해','기고','때문','부의','통해','이번','기존','출처','가장','기자']
+
+ko=[eachword for eachword in ko if eachword not in stopword]
+
+ko=nltk.Text(ko)
+
+data=ko.vocab().most_common(100)
+
+wordcloud=WordCloud(font_path="c:\Windows\Fonts\malgunbd.ttf",
+          background_color="white",width=1000,height=800).generate_from_frequencies(dict(data))
+
+plt.figure(figsize=(10,10))
+
+plt.imshow(wordcloud)
+
+plt.axis("off")
+
+plt.show()
+
+
+#-----------------------------------------------------------------------------#
+# 설명
+[오후 3:51] 쌤꺼에서 보면
+[오후 3:51] params=[]에 기사링크 url 쫙 넣고
+[오후 3:52] txt=[]에 기사내용 append로 넣자나
+[오후 3:52] 그럼 txt=[기사1,기사2,기사3,....]
+[오후 3:52] 이렇지
+[오후 3:52] 근데 저상태로 .nouns를 하게되면
+[오후 3:53] 내가 아까말한 [[기사1의 단어],[기사2의 단어],...]
+[오후 3:53] 이게돼
+[오후 3:53] 그래서 [기사1기사2기사3,...]형태로 만들려고
+[오후 3:53] new_text='' 하고 +로 이어붙인거야
+[오후 3:53] 그 과정에서 필요없는 부분인 copyright 뒷부분은 지운거고!
+#-----------------------------------------------------------------------------#

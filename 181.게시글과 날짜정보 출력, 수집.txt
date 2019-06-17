@@ -1,0 +1,72 @@
+[181]
+이 주소로 접속하셔서 게시글을 출력하세요.
+http://home.ebs.co.kr/ladybug/board/6/10059819/oneBoardList?hmpMnuId=106
+
+[Answer]
+from bs4 import BeautifulSoup
+import urllib.request as req
+
+url = "http://home.ebs.co.kr/ladybug/board/6/10059819/oneBoardList?hmpMnuId=106"
+res = req.urlopen(url)
+soup = BeautifulSoup(res,"html.parser")
+result = soup.find_all('p', class_="con")
+for i in result:
+    print(i.get_text(strip=True))
+
+url = "http://home.ebs.co.kr/ladybug/board/6/10059819/oneBoardList?hmpMnuId=106"
+res = req.urlopen(url).read().decode("utf-8")
+soup = BeautifulSoup(res,"html.parser")
+result = soup.find_all('p', class_="con")
+for i in result:
+    print(i.get_text(strip=True))
+
+
+
+
+
+
+[182]
+게시글 뿐만 아니라 게시날짜 정보도 같이 출력하시오.
+
+[Answer]
+from bs4 import BeautifulSoup
+import urllib.request as req
+url = "http://home.ebs.co.kr/ladybug/board/6/10059819/oneBoardList?hmpMnuId=106"
+res = req.urlopen(url)
+soup= BeautifulSoup(res, "html.parser")
+a = soup.find_all('p',class_="con")
+b = soup.find_all('span',class_="date")
+print(b[0].get_text())
+print(b[0].text)
+
+cnt= 0
+for i in a:
+    print(b[cnt].text,i.get_text(strip=True))
+    cnt += 1
+
+print(cnt)
+
+
+
+
+
+
+[183]
+게시판에 게시글 전부를 수집해주세요.
+
+[Answer]
+for i in range(1,16):
+    url = "http://home.ebs.co.kr/ladybug/board/6/10059819/oneBoardList?c.page="+str(i)+"&hmpMnuId=106&searchKeywordValue=0&bbsId=10059819&searchKeyword=&searchCondition=&searchConditionValue=0&"
+
+    res = req.urlopen(url)
+    soup= BeautifulSoup(res, "html.parser")
+    a = soup.find_all('p',class_="con")
+    b = soup.find_all('span',class_="date")
+    cnt= 0
+    content =[]
+    for i in a:
+        content.append(b[cnt].text + i.get_text(strip=True))
+        cnt += 1
+    
+    for j in content:
+        print(j)

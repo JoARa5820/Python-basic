@@ -1,0 +1,430 @@
+[187]
+생성자에 이름, 핸드폰번호, 메일, 주소 변수를 생성합니다. 
+print_info 메소드를 생성한 후  출력하는 Contact 클래스를 생성하세요.
+인스턴스는 set_contact 함수를 이용해서 만드시고 이름, 핸드폰번호,메일, 주소는 입력값으로 받아서 출력하세요.
+
+이름을 입력하세요 : 홍길동
+
+핸드폰번호를 입력하세요 : 010-1000-1004
+
+메일을 입력하세요 : hong@aaa.com
+
+주소를 입력하세요 : 서울시 강남구 삼성로
+
+이름 : 홍길동 
+핸드폰번호 : 010-1000-1004 
+메일 : hong@aaa.com 
+주소 : 서울시 강남구 삼성로name
+
+
+[Answer]
+class Contact:
+    def __init__(self,name, pn, email, addr):
+        self.name = name
+        self.pn = pn
+        self.email = email
+        self.addr = addr
+
+    def print_info(self):
+        print("이름 : {} ".format(self.name))
+        print("핸드폰번호 : {} ".format(self.pn))
+        print("메일 : {} ".format(self.email))
+        print("주소 : {} ".format(self.addr))
+
+
+def set_contact():
+    name = input("이름을 입력하세요 : ")
+    pn = input("핸드폰번호를 입력하세요 : ")
+    email = input("메일을 입력하세요 : ")
+    addr = input("주소를 입력하세요 : ")
+    conIns = Contact(name, pn, email, addr)
+    conIns.print_info()
+
+set_contact()
+
+
+
+
+
+
+[188]
+Contact 클래스 이용해서 입력 들어 온 값들을 c:/data/contact.db 에 저장해서 관리하세요.
+
+[Answer]
+import sqlite3
+
+class Contact:
+    def __init__(self,name, pn, email, addr):
+        self.name = name
+        self.pn = pn
+        self.email = email
+        self.addr = addr
+
+    def print_info(self):
+        print("이름 : {} ".format(self.name))
+        print("핸드폰번호 : {} ".format(self.pn))
+        print("메일 : {} ".format(self.email))
+        print("주소 : {} ".format(self.addr))
+
+    def input(self):
+        self.conn = sqlite3.connect('c:/data/contact.db')
+        self.c = self.conn.cursor()
+        self.c.execute("insert into contact(name, pn, mail, addr) values(?,?,?,?)",(self.name,self.pn,self.email,self.addr))
+        self.c.execute('select * from contact')
+        print(self.c.fetchall())
+    
+    def commit(self):		# commit 할 때 사용할 메소드
+        self.conn.commit()
+       
+    def rollback(self):		# rollback 할 때 사용할 메소드
+        self.conn.rollback()
+
+    def close(self):		# close 할 때 사용할 메소드
+        self.c.close()
+        self.conn.close()
+
+
+def set_contact():
+    name = input("이름을 입력하세요 : ")
+    pn = input("핸드폰번호를 입력하세요 : ")
+    email = input("메일을 입력하세요 : ")
+    addr = input("주소를 입력하세요 : ")
+    conIns = Contact(name, pn, email, addr)
+    conIns.print_info()
+    conIns.input()
+    conIns.commit()
+    conIns.close()
+
+set_contact()
+
+#-----------------------------------------------------------------------------#
+=> 영구적으로 사용하고 싶으면 .py 파일로 data폴더안에 넣어주면 됨 (import sys)
+sys.path.append('c:\data')
+from Contact import *
+c드라이브에 패키지이름.py로 저장 (저장할때는 encording을 utf-8로 해주기)
+#-----------------------------------------------------------------------------#
+# 언제든지 사용하고 싶다면? class를 py로 저장하고 import하면된다.
+
+import sys
+sys.path.append('C:\DATA\Contact.py')
+sys.path
+
+sys.path.remove('C:\DATA\Contact.py')
+
+파일저장시 모든 파일모드에 Contact.py이름으로 하고
+encoding - utf-8로 해야한다.
+
+Contact.py
+#-----------------------------------------------------------------------------#
+import sys
+sys.path.append('c:\\python') # 역슬래쉬 두번!! ★
+sys.path # 경로 확인
+#-----------------------------------------------------------------------------#
+
+import sqlite3
+
+class Contact:
+    def __init__(self,name, pn, email, addr):
+        self.name = name
+        self.pn = pn
+        self.email = email
+        self.addr = addr
+
+    def print_info(self):
+        print("이름 : {} ".format(self.name))
+        print("핸드폰번호 : {} ".format(self.pn))
+        print("메일 : {} ".format(self.email))
+        print("주소 : {} ".format(self.addr))
+
+#-----------------------------------------------------------------------------#
+## 이 부분이 바뀜
+
+    def input(self):
+	self.conn = sqlite3.connect('c:/data/contact.db')
+	self.c = self.conn.cursor()
+
+	self.c.execute("SELECT name FROM sqlite_master WHERE name = 'contact'")
+	if self.c.fetchone() is None:
+		self.c.execute('create table contact (name text,pn text,mail text,addr text)')
+
+# 위의 두줄을
+#self.c.execute('create table if not exists contact(name text,pn text,mail text,addr text)')로 바꿔도 된다.
+
+	self.c.execute('insert into contact(name,pn,mail,addr) values(?,?,?,?)',(self.name,self.pn,self.email,self.addr))
+	self.c.execute('select * from contact')
+	print(self.c.fetchall())
+#-----------------------------------------------------------------------------#
+
+    def commit(self):		# commit 할 때 사용할 메소드
+        self.conn.commit()
+       
+    def rollback(self):		# rollback 할 때 사용할 메소드
+        self.conn.rollback()
+
+    def close(self):			# close 할 때 사용할 메소드
+        self.c.close()
+        self.conn.close()
+
+
+def set_contact():
+    name = input("이름을 입력하세요 : ")
+    pn = input("핸드폰번호를 입력하세요 : ")
+    email = input("메일을 입력하세요 : ")
+    addr = input("주소를 입력하세요 : ")
+    conIns = Contact(name, pn, email, addr)
+    conIns.print_info()
+    conIns.input()
+    conIns.commit()
+    conIns.close()
+
+set_contact()
+
+
+
+
+
+
+[189]
+초기 생성자에는 이름, 주소, 급여를 입력값으로 받고 아래와 같이 출력되는 클래스를 생성하세요. 인스턴스 생성될때 마다 건수를 출력해주세요.
+
+
+사원수 : 1
+이름 : 홍길동 , 주소 : 덴마크,  급여 : 1000
+
+사원수 : 2
+이름 : 홍아들 , 주소 : 노르웨이,  급여 : 2000
+
+
+[Answer]
+class Employee:
+   
+   empCn = 0 # 클래스변수
+
+   def __init__(self, name, addr, salary): # 인스턴스 만들때 값을 넣고싶으면서 초기화도 해야할 때 init사용 // # self외:형식매개변수들
+      self.name = name # 인스턴스 변수들:self.변수
+      self.addr = addr # 인스턴스변수 =(<-넣어줌) 매개변수
+      self.salary = salary
+      Employee.empCn += 1 # 클래스변수는 초기화되지 않는다.
+   
+   def printCount(self): # 메소드 안에 self가 있어야함
+     print("사원수 : %d" %Employee.empCn) # 클래스이름.변수이름
+
+   def printEmployee(self):
+      print( "이름 : {} , 주소 : {},  급여 : {}".format(self.name, self.addr, self.salary))
+
+
+emp1 = Employee("홍길동","덴마크", 1000)
+emp1.printCount()
+emp1.printEmployee()
+
+
+emp2 = Employee("홍아들","노르웨이", 2000)
+emp2.printCount()
+emp2.printEmployee()
+
+
+
+
+
+
+[190]
+id_number1 = "010101-3234567"
+id_number2 = "990202-2123456"
+
+# 7번째 숫자가 3,4면 21세기 / 1,2면 20세기 => 010101이여도 2001년처럼 연도를 표현할 수 있다.
+2001 01 01 남성
+1999 02 02 여성
+
+
+[Answer]
+def id_process(id): # id값:010101-3234567
+	first,second = id.split("-") # first:010101, second:3234567
+	gender = second[0]
+
+	if gender == "1" or gender == "2":
+		year = "19" + first[:2]
+	else:
+		year = "20" + first[:2]
+
+	if gender == "2" or gender =="4":
+		gender = "여성"
+	else:
+		gender = "남성"
+
+	month = first[2:4]
+	day = first[4:6]
+
+	return year,month,day,gender
+
+
+id_process(id_number1)
+Out[86]: ('2001', '01', '01', '남성')
+
+id_process(id_number2)
+Out[87]: ('1999', '02', '02', '여성')
+
+
+또는
+
+class IdNum:
+    def __init__(self,num):
+        self.num=num
+    def show(self):
+        if self.num[7]=='1':
+            print('19'+self.num[0:2]+' '+self.num[2:4]+' '+self.num[4:6]+' 남성')
+        elif self.num[7]=='2':
+            print('19'+self.num[0:2]+' '+self.num[2:4]+' '+self.num[4:6]+' 여성')
+        elif self.num[7]=='3':
+            print('20'+self.num[0:2]+' '+self.num[2:4]+' '+self.num[4:6]+' 남성')
+        else:
+            print('20'+self.num[0:2]+' '+self.num[2:4]+' '+self.num[4:6]+' 여성')
+
+
+id_num1=IdNum('010101-3234567')
+
+id_num1.show()
+2001 01 01 남성
+
+id_num2=IdNum('990202-2123456')
+
+id_num2.show()
+1999 02 02 여성
+
+
+또는
+
+def id():
+   t=input("주민 : ")
+   if t.split('-')[1][0] in ['1','2']:
+      cen = "19"
+   else:
+      cen = "20"
+   if t.split('-')[1][0] in ['1','3']:
+      gender = "남성"
+   else:
+      gender = "여성"
+   print(cen+t.split('-')[0][0:2],' ',t.split('-')[0][2:4],' ',t.split('-')[0][4:],' ',gender)
+
+
+또는
+
+def id(id):
+    if id[7]=="1":
+        print("19"+id[0:2],id[2:4],id[4:6],'남성')
+    elif id[7]=="2":
+        print("19"+id[0:2],id[2:4],id[4:6],'여성')
+    elif id[7]=="3":
+        print("20"+id[0:2],id[2:4],id[4:6],'남성')
+    elif id[7]=="4":
+        print("20"+id[0:2],id[2:4],id[4:6],'여성')
+
+id("010101-3234567")
+
+
+
+
+
+
+[191]
+Person 클래스를 생성하세요. 생성자는 이름, 나이, 성별을 만드세요.
+Person 클래스에는 printMe 메소드를 생성해서 이름, 나이 성별을 출력합니다.
+
+Employees클래스를 생성한후 Person상속받습니다.
+생성자는 이름, 나이, 성별, 주소, 생일입니다.
+단 이름, 나이, 성별은 person에서 상속받으세요.
+Employees 클래스에 printMe를 재구성하셔서 주소, 생일을 출력하세요.
+
+myPerson = Person("홍길동","10", "남")
+myPerson.printMe()
+
+myEmployee = Employee("송준기", "2", "남", "서울", "2016년 01월 01일")
+myEmployee.printMe()
+
+이름은 홍길동 ,  나이는 10살 이고, 성별은 남 입니다.
+이름은 송준기 ,  나이는 2살 이고, 성별은 남 입니다.
+집 주소는  서울  생일은  2016년 01월 01일 입니다. 
+
+
+[Answer]
+class Person:
+	def __init__(self,name,age,gender): # self:인스턴스생성자, name,age,gender:(형식)매개변수
+		self.name = name # self.Name = name: Name과 name은 상관없음 / Name:인스턴스변수, name:매개변수
+		self.age = age
+		self.gender = gender # self.Gender = gender
+
+	def printMe(self):
+		print('이름은 {}, 나이는 {}살이고, 성별은 {}입니다.'.format(self.name,self.age,self.gender))
+		# format(self.Name,self.Age,self.Gender)로 하려면 위에서 self.Gender = gender식으로 하기
+
+
+
+class Employee(Person):
+	def __init__(self,name,age,gender,juso,birth):
+		Person.__init__(self,name,age,gender)
+		self.juso = juso # self.Juso = juso
+		self.birth = birth # self.Birth = birth 이렇게 하면 아래 format에서도 대문자로 써줘야함
+
+	def printMe(self):
+		Person.printMe(self)
+		print('집 주소는 {}, 생일은 {}입니다.'.format(self.juso,self.birth)) # format(self.Juso,self.Birth)
+
+
+
+myPerson = Person("홍길동","10", "남")
+myPerson.printMe()
+=> 이름은 홍길동, 나이는 10살이고, 성별은 남입니다.
+
+
+myEmployee = Employee("송준기", "2", "남", "서울", "2016년 01월 01일")
+myEmployee.printMe()
+=> 이름은 송준기, 나이는 2살이고, 성별은 남입니다.
+집 주소는 서울, 생일은 2016년 01월 01일입니다.
+
+
+# Person이라는 클래스를 그대로 가져다 쓰는것이기 때문에 pass해주면 그냥 Person클래스와 같아짐
+class Emp(Person):
+	pass
+
+e = Emp('홍길동',10,'남') # Person이라는 클래스 안에는 무조건 3개의 변수를 넣어줘야하니까 여기서도 3개
+e.printMe() # Person클래스 안의 printMe를 가져다 씀
+
+
+
+
+
+
+[192]
+Add 클래스에 두수를 더하는 값을 리턴하는 add 메소드 생성
+Multiply 클래스에 두수를 곱한값을 리턴하는 multiply 메소드 생성
+Divide 클래스에 두수를 나눈값을 리턴하는 divide메소드 생성
+Calculator클래스에는 Add, Multiply, Divide 상속받고 두수를 뺀값을 리턴하는 sub 메소드 생성하세요.
+
+
+[Answer]
+class Add:
+	def add(self,x,y):
+		return x+y
+
+
+class Multiply:
+	def multiply(self,x,y):
+		return x*y
+
+
+class Divide:
+	def divide(self,x,y):
+		return x/y
+
+
+class Calculator(Add,Multiply,Divide):
+	def sub(self,x,y):
+		return x-y
+
+
+cal = Calculator()
+
+print(cal.add(10,20))
+30
+
+print(cal.multiply(10,20))
+200

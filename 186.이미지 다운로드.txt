@@ -1,0 +1,28 @@
+[186]
+http://www.skwyverns.com/Wyverns/Players/picther/picther_list.asp
+이미지를 다운로드하세요.
+
+
+[Answer]
+from bs4 import BeautifulSoup
+import urllib.request as req
+
+params = []
+
+url = "http://www.skwyverns.com/Wyverns/Players/picther/picther_list.asp"
+res = req.urlopen(url).read()
+soup = BeautifulSoup(res, "html.parser")
+lnk = soup.select('div.sell > div.sum > a > img')
+
+for i in lnk:
+    params.append('http://www.skwyverns.com'+i['src'])
+
+
+# 이미지 파일로 저장시키기
+from urllib import request
+
+p in params:
+	splitStr = p.split('/')
+	name=splitStr[len(splitStr)-1]
+	fullPath = 'c:\data/'+name
+	request.urlretrieve(p,fullPath)

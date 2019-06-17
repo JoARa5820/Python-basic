@@ -1,0 +1,52 @@
+[184]
+동아일보에서 인공지능에 기사 스크롤링 해주세요.
+
+[Answer]
+import urllib.request
+from bs4 import BeautifulSoup
+
+params = []
+
+for i in range(1,20,15):
+    list_url = "http://news.donga.com/search?p="+str(i)+"&query=%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1"
+
+    url = urllib.request.Request(list_url)
+    res = urllib.request.urlopen(url, timeout=100).read().decode("utf-8")			timeout=100 : 대기시간이 100초보다 길어질 경우 오류메세지를 남기고 다른 명령 수행
+    soup= BeautifulSoup(res, "html.parser")
+    for link in soup.findAll('p', {'class':'tit'}):
+        params.append(link.find('a').get('href'))
+
+print(params)
+
+cn = 0
+txt= []
+for i in params:
+    print(i)
+    url = urllib.request.Request(i)
+    res = urllib.request.urlopen(url).read().decode("utf-8")
+    soup= BeautifulSoup(res, "html.parser")
+    result = soup.find_all('div',class_='article_txt')
+    
+    for i in result:
+        #print(i.text)
+       txt.append(i.text)
+
+txt[0]
+
+txt[0][0:txt[0].find('Copyright')]	# 카피라이터 나오는곳 전까지만 뽑는다는 뜻
+
+for i in range(0,30):
+    print(txt[i][0:txt[i].find('Copyright')])
+
+
+#-----------------------------------------------------------------------------#
+txt[0]
+txt[0][0:txt[0].find('Copyright')]
+
+# 위 두가지에 대한 설명:
+
+예지=[으네바보,아라바보]
+예지[0]			# 으네바보
+예지[0][0:2]		# 으네
+예지[0][0:예지[0].find(바보)]	#으네	# .find(바보): 바보전까지 뽑는다는 뜻
+#-----------------------------------------------------------------------------#

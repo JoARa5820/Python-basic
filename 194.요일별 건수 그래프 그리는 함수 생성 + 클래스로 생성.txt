@@ -1,0 +1,94 @@
+[194]
+한주간동안 걸음수를 요일별로 그래프를 그리세요.
+단 막대그래프 함수를 생성해서 인수값으로 걸음수, 요일을 입력하면 그래프가 그려지도록하세요.
+# matplotlib 사이트 참고하기
+
+
+[Answer]
+import matplotlib.pyplot as plt
+from matplotlib import font_manager, rc
+font_name = font_manager.FontProperties(fname="c:/Windows/Fonts/malgun.ttf").get_name()
+rc('font', family=font_name)
+
+
+def create_bar_chart(data,labels,bar):
+
+    num_bars = len(data)
+
+    positions = range(1, num_bars+1)
+    if bar == 1:        
+        plt.bar(positions, data, align='center')
+        plt.xticks(positions, labels)
+        plt.xlabel('요일')
+        plt.ylabel('걸음수')
+       
+    else:
+         plt.barh(positions, data, align='center')
+         plt.yticks(positions, labels)
+         plt.xlabel('걸음수')
+         plt.ylabel('요일')
+    
+
+    plt.title('한주간 동안 걸음수') 
+    plt.grid()
+    plt.show()
+    
+if __name__=='__main__':
+    step = [1090,2000,3000,4000,10000,50000,2000]
+    labels = ['월','화','수','목','금','토','일']
+    create_bar_chart(step,labels,2)
+
+
+# 실행하기
+create_bar_chart(step,labels,1)
+=> 수직막대그래프
+create_bar_chart(step,labels,2)
+=> 수평막대그래프
+
+
+
+
+
+
+[195]
+194번의 그래프 그리는 것을 클래스로 만들어보기
+
+[Answer]
+import matplotlib.pylab as plt
+from matplotlib import font_manager, rc
+font_name = font_manager.FontProperties(fname="c:/Windows/Fonts/malgun.ttf").get_name()
+rc('font', family=font_name)
+
+class create_bar_chart:
+    def __init__(self,data, labels, bar):
+        self.data = data
+        self.labels = labels
+        self.bar = bar
+        
+    def create_bar_chart(self):
+    
+        num_bars = len(self.data)
+    
+        positions = range(1, num_bars+1)
+        if self.bar == 1:
+            plt.bar(positions, self.data, align='center')
+            plt.xticks(positions, self.labels)
+            plt.xlabel('요일')
+            plt.ylabel('걸음수')
+           
+        else:
+            plt.barh(positions, self.data, align='center')
+            plt.yticks(positions, self.labels)
+            plt.xlabel('걸음수')
+            plt.ylabel('요일')
+        
+    
+        plt.title('한주간 동안 걸음수') 
+        plt.grid()
+        plt.show()
+    
+if __name__=='__main__':
+    step = [5000,6000,7500,10000,10000,20000,2000]
+    labels = ['월','화','수','목','금','토','일']
+    cbc = create_bar_chart(step,labels,1)
+    cbc.create_bar_chart()
